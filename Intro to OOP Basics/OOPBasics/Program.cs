@@ -33,6 +33,7 @@ namespace OOPBasics
             // Assign what my name/age is
             me.Name = "Dan Gilleland";
             me.Age = 40; // that's a lie....
+            Console.WriteLine($"My age is {me.Age}");
 
             // Instantiate another Person object
             myFriend = new Person()
