@@ -7,9 +7,11 @@ using System;
 namespace OOPBasics
 {
     public class Program
-    {     
-        public static void Main(string[] args) // method header
-        {   // Open curly brace is the start of the body
+    {
+        // Here's a method for my first console in/out demo
+        public void DemoUserInputOutput()
+        {
+            // todo....
             Console.WriteLine("Hello OOP Basics!");
 
             string name; // Declaring a variable
@@ -23,7 +25,10 @@ namespace OOPBasics
             Console.WriteLine($"Hello {name}!");
 
             Console.WriteLine("Good to meet you {0}", name);
+        }
 
+        public static void DemoSimplePerson()
+        {
             // Demonstrate using the Person data type (class)
             // to create variables (objects)
             Person me;
@@ -47,6 +52,15 @@ namespace OOPBasics
             message = $"My name is {me.Name} and my friend is {myFriend.Name}";
             Console.WriteLine(message);
 
+
+        }
+
+        public static void Main(string[] args) // method header
+        {   // Open curly brace is the start of the body
+            // Run the first demo
+            Program app = new Program(); // Create a Program object
+            app.DemoUserInputOutput(); // Call the Instance Method
+            DemoSimplePerson(); // Call the Static Method
         }   // end of Main() method body
     }
 }
