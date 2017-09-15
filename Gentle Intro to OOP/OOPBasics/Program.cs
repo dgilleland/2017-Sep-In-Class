@@ -20,6 +20,25 @@ namespace OOPBasics
             Console.WriteLine();
             Console.WriteLine("Today's topic is OOP Basics");
             // Demonstrate a Person class
+            Person theUser;
+            Person friend;
+            // Create a Person object and set the name/age
+            theUser = new Person();
+            theUser.Name = name;
+            theUser.Age = 40; // lying again.... :(
+
+            // Another way to create a Person
+            Console.Write("What is the name of your friend? ");
+            name = Console.ReadLine();
+            friend = new Person()
+            { // Initialization List
+                Name = name,
+                Age = 38
+            };
+
+            string message;
+            message = $"Say hi to {friend.Name} for me. You are {theUser.Age - friend.Age} years older than your friend.";
+            Console.WriteLine(message);
         }
 
         private static string Recap(string topic) // static
