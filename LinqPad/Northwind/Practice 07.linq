@@ -9,7 +9,7 @@
 
 // Group employees by region and show the results in this format:
 /* ----------------------------------------------
- * | TERRITORY     | EMPLOYEES                  |
+ * | REGION        | EMPLOYEES                  |
  * ----------------------------------------------
  * | Eastern       | ------------------------   |
  * |               | | Nancy Devalio        |   |
