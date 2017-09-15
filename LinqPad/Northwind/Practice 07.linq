@@ -20,3 +20,28 @@
  * | ...           |                            |
  * 
  */
+from data in EmployeeTerritories
+group data by data.Territory.Region.RegionDescription into regionGrp
+select new
+{
+	Region = regionGrp.Key,
+	Employees = from person in regionGrp
+	            select person.Employee.FirstName + " " + person.Employee.LastName
+				// foreach(var person in regionGrp)
+				// {
+				//     get the name from person object
+				// }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,3 +8,11 @@
 </Query>
 
 // List all the Region and Territory names in a "flat" list
+from data in Territories
+// Here's how I would sort the results
+orderby data.Region.RegionDescription, data.TerritoryDescription
+select new
+{
+    Region = data.Region.RegionDescription,
+	Territory = data.TerritoryDescription
+}

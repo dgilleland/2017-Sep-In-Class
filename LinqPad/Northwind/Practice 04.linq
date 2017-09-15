@@ -8,3 +8,9 @@
 </Query>
 
 // List all the regions and the number of territories in each region
+from row in Regions
+select new
+{
+	Region = row.RegionDescription,
+	TerritoryCount = row.Territories.Count
+}

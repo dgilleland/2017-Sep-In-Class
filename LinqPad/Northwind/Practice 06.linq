@@ -8,3 +8,12 @@
 </Query>
 
 // List all the Region and Territory names as an "object graph" - use a nested query
+from data in Regions
+orderby data.RegionDescription descending
+select new
+{
+	Region = data.RegionDescription,
+	Territories = from row in data.Territories
+	              orderby row.TerritoryDescription
+	              select row.TerritoryDescription
+}

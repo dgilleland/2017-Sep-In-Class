@@ -8,3 +8,5 @@
 </Query>
 
 // Give me a list of all the Territory names
+from data in Territories
+select data.TerritoryDescription

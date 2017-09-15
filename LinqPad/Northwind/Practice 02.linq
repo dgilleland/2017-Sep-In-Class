@@ -8,3 +8,5 @@
 </Query>
 
 // Give me a list of all the Region names
+from row in Regions
+select row.RegionDescription
