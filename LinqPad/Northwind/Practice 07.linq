@@ -7,7 +7,7 @@
   </Connection>
 </Query>
 
-// Group employees b territory and show the results in this format:
+// Group employees by territory and show the results in this format:
 /* ----------------------------------------------
  * | TERRITORY     | EMPLOYEES                  |
  * ----------------------------------------------
