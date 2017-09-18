@@ -27,6 +27,15 @@
                 // methods.
                 _Age = value;
             }
-        }
-    }
-}
+        } // end of Age property
+
+        // Constructors - Ensure all fields/properties have "meaningful" values
+        public Person(string name, int age)
+        {
+            // storing name in the Name field
+            Name = name;
+            // storing age in the Age property
+            Age = age;
+        } // end of constructor
+    } // end of Person class
+} // end of namespace

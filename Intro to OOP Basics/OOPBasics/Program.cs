@@ -34,18 +34,18 @@ namespace OOPBasics
             Person me;
             Person myFriend;
             // Instantiate (create new) Person objects
-            me = new Person(); // new is a keyword
+            me = new Person("Dan Gilleland", 40); // new is a keyword
             // Assign what my name/age is
-            me.Name = "Dan Gilleland";
-            me.Age = 40; // that's a lie....
+            //me.Name = "Dan Gilleland";
+            //me.Age = 40; // that's a lie....
             Console.WriteLine($"My age is {me.Age}");
 
             // Instantiate another Person object
-            myFriend = new Person()
-            { // initialization list..
-                Name = "Fred Flintstone",
-                Age = 43
-            };
+            myFriend = new Person("Fred Flintstone", 43);
+            //{ // initialization list..
+            //    Name = "Fred Flintstone",
+            //    Age = 43
+            //};
 
 
             string message;
