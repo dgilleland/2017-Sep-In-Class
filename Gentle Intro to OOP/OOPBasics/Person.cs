@@ -26,6 +26,12 @@
         }
 
         // Constructors - ensure fields/properties have "meaningful" data
+        public Person(string name, int age)
+        {
+            // Take the info and "copy" it to the fields/properties
+            Name = name; // store name in the field Name
+            Age = age; // store age in the property Age
+        }
 
         // Methods - sets of instructions; represent what objects based on this class can "do"
     }

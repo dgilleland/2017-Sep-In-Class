@@ -23,18 +23,19 @@ namespace OOPBasics
             Person theUser;
             Person friend;
             // Create a Person object and set the name/age
-            theUser = new Person();
-            theUser.Name = name;
-            theUser.Age = 40; // lying again.... :(
+            theUser = new Person(name, 40);
+            Console.WriteLine(theUser.Name);
+            //theUser.Name = name;
+            //theUser.Age = 40; // lying again.... :(
 
             // Another way to create a Person
             Console.Write("What is the name of your friend? ");
             name = Console.ReadLine();
-            friend = new Person()
-            { // Initialization List
-                Name = name,
-                Age = 38
-            };
+            friend = new Person(name, 38);
+            //{ // Initialization List
+            //    Name = name,
+            //    Age = 38
+            //};
 
             string message;
             message = $"Say hi to {friend.Name} for me. You are {theUser.Age - friend.Age} years older than your friend.";
