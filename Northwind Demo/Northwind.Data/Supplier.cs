@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Data
 {
+    [Table("Suppliers")]
     public class Supplier
     {
+        [Key]
         public int SupplierID { get; set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }
@@ -21,5 +22,7 @@ namespace Northwind.Data
         public string Fax { get; set; }
         public string HomePage { get; set; }
 
+        // Navigation Properties
+        public virtual ICollection<Product> Products { get; set; }
     }
 }
