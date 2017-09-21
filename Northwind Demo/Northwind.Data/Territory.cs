@@ -17,7 +17,7 @@ namespace Northwind.Data
 
         #region Navigation Properties
         // DEMO: Many-to-Many Relationships
-        public ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
         #endregion
     }
 }

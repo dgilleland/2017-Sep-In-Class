@@ -39,7 +39,7 @@ namespace Northwind.Data
         public ICollection<Employee> Subbordinates { get; set; }
 
         // DEMO: Many-to-Many Relationships
-        public ICollection<Territory> Territories { get; set; }
+        public virtual ICollection<Territory> Territories { get; set; }
 
         // TODO: Employee Navigation Properties
         #endregion
