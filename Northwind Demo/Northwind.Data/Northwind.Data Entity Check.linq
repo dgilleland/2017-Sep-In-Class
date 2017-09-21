@@ -3,9 +3,9 @@
     <ID>d2680611-0859-4122-802a-895fe15d73e6</ID>
     <Persist>true</Persist>
     <Driver>EntityFrameworkDbContext</Driver>
-    <CustomAssemblyPath>E:\gh\(dgilleland)\2017-Sep-In-Class\Northwind Demo\Northwind.Data\bin\Debug\Northwind.Data.dll</CustomAssemblyPath>
+    <CustomAssemblyPath>.\bin\Debug\Northwind.Data.dll</CustomAssemblyPath>
     <CustomTypeName>Northwind.Data.NorthwindContext</CustomTypeName>
-    <AppConfigPath>E:\gh\(dgilleland)\2017-Sep-In-Class\Northwind Demo\Northwind.Data\App.config</AppConfigPath>
+    <AppConfigPath>.\App.config</AppConfigPath>
   </Connection>
 </Query>
 
