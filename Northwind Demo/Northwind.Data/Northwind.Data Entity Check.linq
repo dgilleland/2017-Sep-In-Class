@@ -13,8 +13,8 @@ Categories.Dump();
 Products.Dump();
 Suppliers.Dump();
 // TODO: Check all entity/table mappings...
-//Employees.Dump();
-//Territories.Dump();
+Employees.Dump();
+Territories.Dump();
 //Regions.Dump();
 //Customers.Dump();
 //Orders.Dump();
