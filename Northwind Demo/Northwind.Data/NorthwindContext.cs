@@ -20,12 +20,21 @@ namespace Northwind.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Territory> Territories { get; set; }
 
         // Override base class method that does the details of mapping entities to the database
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Here I could have a whole lot more control over how each entity
             // maps to the database tables.
+
+            // DEMO: Many-to-Many Relationship Mapping
+            modelBuilder
+                .Entity<Employee>().HasMany(e => e.Territories)
+                .WithMany(t => t.Employees)
+                .Map(m => m.ToTable("EmployeeTerritories").MapLeftKey("EmployeeID").MapRightKey("TerritoryID"));
+
             base.OnModelCreating(modelBuilder);
         }
     }
