@@ -42,6 +42,7 @@ namespace Northwind.Data
         public virtual ICollection<Territory> Territories { get; set; }
 
         // TODO: Employee Navigation Properties
+        public virtual ICollection<Order> Orders { get; set; }
         #endregion
 
         #region Constructors

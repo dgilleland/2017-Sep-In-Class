@@ -21,12 +21,12 @@ namespace Northwind.Data
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        public string Demographics { get; set; }
-        public DateTime LastModified { get; set; }
+        //public string Demographics { get; set; }
+        //public DateTime LastModified { get; set; }
         #endregion
 
         #region Navigation Properties
-        // TODO: Customer Navigation Properties
+        public virtual ICollection<Order> Orders { get; set; }
         #endregion
     }
 }
