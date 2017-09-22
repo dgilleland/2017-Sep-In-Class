@@ -53,6 +53,14 @@
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
+                        <li id="StaffOnly" runat="server">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Admin/Staffing.aspx">Staffing</a></li>
+                                <li><a runat="server" href="~/Admin/HireStaff.aspx">Hire Staff</a></li>
+                                <li><a runat="server" href="~/Admin/EditSalesRegions.aspx">Sales Areas</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
