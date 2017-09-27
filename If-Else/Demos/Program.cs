@@ -4,20 +4,83 @@ namespace Demos
 {
     public class Program
     {
+        #region Driver Method
         public static void Main(string[] args)
         {
-            HighestOfTwo();
-            HighestOfThree();
-            LetterGrades();
-            LetterGradeToRange();
+            string menuChoice;
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Demo Selection Statements");
+            Console.WriteLine("=========================");
+
+            DisplayMenu();
+            menuChoice = Console.ReadLine().ToUpper();
+            ProcessMenuChoice(menuChoice);
         } // end of Main()
 
+        #endregion
+
+        #region General Purpose Methods
+        private static void DisplayMenu()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+            Console.WriteLine("A) Highest of Two");
+            Console.WriteLine("B) Highest of Three");
+            Console.WriteLine("C) Letter Grades");
+            Console.WriteLine("D) Letter Grade to Range");
+            Console.WriteLine("E) Username and Password");
+            Console.WriteLine("X) eXit");
+            Console.ResetColor();
+            Console.Write("Select an option from the menu: ");
+        }
+
+        private static void ProcessMenuChoice(string choice)
+        {
+            switch (choice)
+            {
+                case "A":
+                    HighestOfTwo();
+                    break;
+                case "B":
+                    HighestOfThree();
+                    break;
+                case "C":
+                    LetterGrades();
+                    break;
+                case "D":
+                    LetterGradeToRange();
+                    break;
+                case "E":
+                    break;
+                case "X":
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Invalid menu choice.");
+                    break;
+            }
+            Pause();
+            Console.ResetColor();
+        }
+
+        private static void Pause()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\n\nPress any key to continue...");
+            Console.ReadKey(true);
+            Console.Clear();
+        }
+        #endregion
+
+        #region Menu Processing Methods
+        // TODO: Your specific menu processing methods.
         private static void LetterGradeToRange()
         {
             Console.Write("Enter a letter grade: ");
             string letterGrade = Console.ReadLine();
 
-            switch(letterGrade) // exact matches ONLY
+            switch (letterGrade) // exact matches ONLY
             {
                 case "A":
                     Console.WriteLine("This is from 85 - 100");
@@ -75,7 +138,7 @@ namespace Demos
             third = int.Parse(Console.ReadLine());
 
             // Assume all numbers are different
-            if(first > second)
+            if (first > second)
             {
                 highest = first;
             }
@@ -111,5 +174,6 @@ namespace Demos
 
             Console.WriteLine(message);
         } // end of HighestOfTwo() method
+        #endregion
     }
 }
