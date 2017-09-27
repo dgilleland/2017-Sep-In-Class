@@ -30,6 +30,9 @@ namespace Demos
             Console.WriteLine("C) Letter Grades");
             Console.WriteLine("D) Letter Grade to Range");
             Console.WriteLine("E) Username and Password");
+            Console.WriteLine("F) Palindrome");
+            Console.WriteLine("G) Strong Password");
+            Console.WriteLine("H) Alphabetic Order");
             Console.WriteLine("X) eXit");
             Console.ResetColor();
             Console.Write("Select an option from the menu: ");
@@ -52,6 +55,16 @@ namespace Demos
                     LetterGradeToRange();
                     break;
                 case "E":
+                    UserNameAndPassword();
+                    break;
+                case "F":
+                    Palindrome();
+                    break;
+                case "G":
+                    StrongPassword();
+                    break;
+                case "H":
+                    StrongPassword();
                     break;
                 case "X":
                     break;
@@ -75,6 +88,29 @@ namespace Demos
 
         #region Menu Processing Methods
         // TODO: Your specific menu processing methods.
+        private static void StrongPassword()
+        {
+            // A strong password has
+            // - a mixture of upper and lower case
+            // - a number
+            // - some punctuation or symbol
+            throw new NotImplementedException();
+        }
+
+        private static void Palindrome()
+        {
+            // A palindrome is a word or phrase that is
+            // the same as it is when printed in reverse.
+            throw new NotImplementedException();
+        }
+
+        private static void UserNameAndPassword()
+        {
+            // This example checks a username and a password
+            // to make sure that neither is "inside" the other.
+            throw new NotImplementedException();
+        }
+
         private static void LetterGradeToRange()
         {
             Console.Write("Enter a letter grade: ");
