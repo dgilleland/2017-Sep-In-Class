@@ -64,7 +64,7 @@ namespace Demos
                     StrongPassword();
                     break;
                 case "H":
-                    StrongPassword();
+                    AlphabeticOrder();
                     break;
                 case "X":
                     break;
@@ -88,6 +88,13 @@ namespace Demos
 
         #region Menu Processing Methods
         // TODO: Your specific menu processing methods.
+        private static void AlphabeticOrder()
+        {
+            // Strings can be compared using the .Compare()
+            // method.
+            throw new NotImplementedException();
+        }
+
         private static void StrongPassword()
         {
             // A strong password has
