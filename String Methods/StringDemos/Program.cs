@@ -28,14 +28,43 @@ namespace StringDemos
         #region Supporting Driver Methods
         public static void DisplayMenu()
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
 
+            Console.WriteLine("A) Username and Password");
+            Console.WriteLine("B) Strong Password");
+            Console.ResetColor(); // reset colors to defaults
+            Console.Write("Select an option from the menu: ");
         }
 
         public static void ProcessMenuChoice(string choice)
         {
-
+            switch(choice)
+            {
+                case "A":
+                    UsernameAndPassword();
+                    break;
+                case "B":
+                    StrongPassword();
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Invalid menu choice.");
+                    Console.ResetColor();
+                    break;
+            }
         }
         #endregion
+        #endregion
+
+        #region String Demos
+        private static void UsernameAndPassword()
+        {
+        }
+
+        private static StrongPassword()
+        {
+
+        }
         #endregion
     }
 }
