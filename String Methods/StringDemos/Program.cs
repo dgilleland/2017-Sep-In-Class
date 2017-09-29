@@ -61,7 +61,7 @@ namespace StringDemos
         {
         }
 
-        private static StrongPassword()
+        private static void StrongPassword()
         {
 
         }
