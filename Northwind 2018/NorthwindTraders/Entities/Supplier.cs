@@ -24,7 +24,9 @@ namespace NorthwindTraders.Entities
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        public string HomePage { get; set; }
+        public string HomePageTitle { get; set; }
+        public string HomePageUrl { get; set; }
+        public DateTime LastModified { get; set; }
         #endregion
 
         #region Navigation Properties

@@ -24,8 +24,8 @@ namespace NorthwindTraders.Entities
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        //public string Demographics { get; set; }
-        //public DateTime LastModified { get; set; }
+        public string Demographics { get; set; }
+        public DateTime LastModified { get; set; }
         #endregion
 
         #region Navigation Properties
