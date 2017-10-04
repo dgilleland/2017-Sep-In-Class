@@ -52,10 +52,13 @@ namespace DemoLoops
                     GeneralUserValidation();
                     break;
                 case "G": // Fibonnacci Sequences
+                    Fibonnacci();
                     break;
                 case "H": // Perfect Numbers
+                    IsPerfect();
                     break;
                 case "I": // Factorials
+                    Factorial();
                     break;
                 case "J": // Prime Numbers
                     break;
@@ -132,13 +135,13 @@ namespace DemoLoops
             for (int count = 0; count < 5; count++)
             {
                 // Make a random cost of the item
-                double cost = Math.Round(rnd.NextDouble(),2);
+                double cost = Math.Round(rnd.NextDouble(), 2);
                 Console.WriteLine($"This grab-bag costs {cost:C}");
 
                 Console.Write("How many do you want? ");
                 string userInput = Console.ReadLine();
                 int qty;
-                while(!int.TryParse(userInput, out qty))
+                while (!int.TryParse(userInput, out qty))
                 {
                     Console.WriteLine("Try again. How many? ");
                     userInput = Console.ReadLine();
@@ -146,7 +149,7 @@ namespace DemoLoops
                 total += cost * qty;
             }
             Console.WriteLine("\tGreat! But we only accept loonies....");
-            double modifiedTotal = (int)Math.Round(((total + .5) * 100),0 ) / 100;
+            double modifiedTotal = (int)Math.Round(((total + .5) * 100), 0) / 100;
             double diff = modifiedTotal - total;
             Console.WriteLine($"Total: {total,12:C} Modified: {modifiedTotal,12:c}");
             if (modifiedTotal > 0)
@@ -169,11 +172,11 @@ namespace DemoLoops
             Console.Write("Enter a whole number: ");
             userInput = Console.ReadLine(); // gets TEXT input
             while (!int.TryParse(userInput, out wholeNumber))
-              // \                       \  indirect   //
-              //  \                       \  return   //
-              //   \                       \  value  //
-              //    \                       =========/
-              //     \  .TryParse() returns a bool  /
+            // \                       \  indirect   //
+            //  \                       \  return   //
+            //   \                       \  value  //
+            //    \                       =========/
+            //     \  .TryParse() returns a bool  /
             {
                 Console.Write("Try again. Enter a whole number: ");
                 userInput = Console.ReadLine();
@@ -220,6 +223,76 @@ namespace DemoLoops
             // TODO: Write the code to ask the user for a price.
             //       Keep asking if the price is less than $25
             //       and greater than $50.
+        } // end of GeneralUserValidation() method
+
+        private static void Fibonnacci()
+        {
+            int position;
+            do
+                Console.Write("Enter a position in the Fibonnacci sequence: ");
+            while (!int.TryParse(Console.ReadLine(), out position));
+
+            // Here's the calculation....
+            int current = 1, previous = 1, beforePrevious = 0;
+            if (position >= 1)
+            {
+                for (int counter = 3; counter <= position; counter++)
+                {
+                    beforePrevious = previous;
+                    previous = current;
+                    current = beforePrevious + previous;
+                }
+            }
+
+            Console.WriteLine($"The number is {current}");
+        }
+
+        private static void Factorial()
+        {
+            int fact;
+            do
+                Console.Write("Enter a number for a factorial: ");
+            while (!int.TryParse(Console.ReadLine(), out fact));
+
+            // Calculate the factorial....
+            int factorial = 1;
+
+            for (int count = 1; count <= fact; count++)
+            {
+                if (int.MaxValue / count < factorial)
+                    throw new Exception("That's TOO BIG!");
+                factorial *= count;
+            }
+
+            Console.WriteLine($"{fact}! is {factorial}");
+        }
+
+        private static void IsPerfect()
+        {
+            int number;
+            do
+                Console.Write("Enter a number: ");
+            while (!int.TryParse(Console.ReadLine(), out number));
+
+            bool perfect = true;
+            if (number <= 1)
+                perfect = false;
+            else
+            {
+                // The following logic attempts to prove it is imperfect
+                int halfWay = number / 2;
+                int total = 0;
+                int count = 1;
+                while (total != number && total <= halfWay && total < number)
+                {
+                    if (number % count == 0) // Then count is a factor of number
+                        total += count;
+                    count++;
+                }
+                if (total != number)
+                    perfect = false;
+            }
+            Console.WriteLine(perfect.ToString());
         }
         #endregion
     }
