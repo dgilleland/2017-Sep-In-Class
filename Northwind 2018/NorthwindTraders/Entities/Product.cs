@@ -28,6 +28,8 @@ namespace NorthwindTraders.Entities
         #region Navigational Property
         public virtual Supplier Supplier { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+            = new HashSet<OrderDetail>();
         #endregion
     }
 }

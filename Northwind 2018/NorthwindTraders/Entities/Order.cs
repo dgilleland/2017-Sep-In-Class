@@ -31,6 +31,8 @@ namespace NorthwindTraders.Entities
 
         #region Navigational Properties
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+            = new HashSet<OrderDetail>();
+
         [ForeignKey("ShipVia")] // Tell EF which property to use as Foreign Key data
         public virtual Shipper Shipper { get; set; }
         public virtual Customer Customer { get; set; }

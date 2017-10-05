@@ -20,6 +20,7 @@ namespace NorthwindTraders.Entities
 
         #region Navigational Properties
         public virtual ICollection<Order> Orders { get; set; }
+            = new HashSet<Order>();
         #endregion
     }
 }

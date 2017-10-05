@@ -15,7 +15,7 @@ namespace NorthwindTraders.Entities
         [Key]
         public int EmployeeID { get; set; }
         public string FirstName { get; set; }
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
         public string Title { get; set; }
         public string TitleOfCourtesy { get; set; }
         public DateTime? BirthDate { get; set; }
@@ -40,12 +40,12 @@ namespace NorthwindTraders.Entities
         [ForeignKey("ReportsTo")]
         public virtual Employee Manager { get; set; }
         public ICollection<Employee> Subbordinates { get; set; }
+            = new HashSet<Employee>();
 
         // DEMO: Many-to-Many Relationships
         public virtual ICollection<Territory> Territories { get; set; }
-
-        // TODO: Employee Navigation Properties
         public virtual ICollection<Order> Orders { get; set; }
+            = new HashSet<Order>(); // This could have been set up in the constructor
         #endregion
 
         #region Constructors
@@ -60,7 +60,8 @@ namespace NorthwindTraders.Entities
 
         // TODO: Non-mapped properties
         // FullName -> First Last
+        public string FullName { get { return $"{FirstName} {LastName}"; } }
         // FormalName -> Last, First
-        // 
+        public string FormalName { get { return $"{LastName}, {FirstName}"; } }
     }
 }

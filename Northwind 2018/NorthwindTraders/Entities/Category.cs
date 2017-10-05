@@ -16,9 +16,15 @@ namespace NorthwindTraders.Entities
         public byte[] Picture { get; set; }
         #endregion
 
-
         #region Navigation Properties
         public virtual ICollection<Product> Products { get; set; }
+        #endregion
+
+        #region Constructor
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
         #endregion
     }
 }

@@ -18,7 +18,8 @@ namespace NorthwindTraders.Entities
         #endregion
 
         #region Navigation Properties
-        // TODO: Region Navigation Properties
+        public virtual ICollection<Territory> Territories { get; set; }
+            = new HashSet<Territory>();
         #endregion
     }
 }
