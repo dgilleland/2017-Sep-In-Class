@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NorthwindTraders.DAL;
+using NorthwindTraders.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,11 +14,107 @@ namespace NorthwindTraders.BLL
     public class SandboxController
     {
         // TODO: ) Discontinued products
-        // TODO: ) Understocked products (UnitsInStock > ReorderLevel)
-        // TODO: ) Recommended product re-orders (UnitsInStock + UnitsOnOrder > ReorderLevel)
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<Product> DiscontinuedProducts()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from data in context.Products
+                              where data.Discontinued
+                              select data;
+                return results.ToList();
+            }
+        }
+
+        // TODO: ) Understocked products (UnitsInStock < ReorderLevel)
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<Product> UnderstockedProducts()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from item in context.Products
+                              where item.UnitsInStock < item.ReorderLevel
+                              select item;
+                return results.ToList();
+            }
+        }
+
+        // TODO: ) Create a method called ClearanceItems that returns a list of all products
+        //         where the product is discontinued and we have items in-stock.
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<Product> ClearanceItems()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from item in context.Products
+                              where item.Discontinued && item.UnitsInStock > 0
+                              select item;
+                return results.ToList();
+            }
+        }
+
+
+        // TODO: ) Recommended product re-orders (UnitsInStock + UnitsOnOrder < ReorderLevel)
+
         // TODO: ) Shippers and the number of orders they have handled
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<ShipperInfo> ShipperSummary()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from row in context.Shippers
+                              select new ShipperInfo()
+                              {
+                                  Company = row.CompanyName,
+                                  OrdersToDate = row.Orders.Count()
+                              };
+                return results.ToList();
+            }
+        }
+        // Q'n'D
+        public class ShipperInfo // a simple DTO
+        {
+            public string Company { get; set; }
+            public int OrdersToDate { get; set; }
+        }
         // TODO: 1) Customer Order History
         //          (dates, ship-to, freight, total cost, with order detail summary and employee rep)
+        public List<CustomerOrderHistory> ListAllCustomerOrders()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from row in context.Orders
+                              select new CustomerOrderHistory()
+                              {
+                                  Company = row.Customer.CompanyName,
+                                  OrderDate = row.OrderDate,
+                                  FreightCharge = row.Freight,
+                                  TotalCost = (from item in row.OrderDetails
+                                               select item.Quantity * item.UnitPrice).Sum()
+                              };
+                return results.ToList();
+            }
+        }
+        /// <summary>
+        /// CustomerOrderHistory is a Data-Transfer-Object
+        /// representing generalized customer order information
+        /// </summary>
+        public class CustomerOrderHistory
+        {
+            public string Company { get; internal set; }
+            public decimal? FreightCharge { get; internal set; }
+            public DateTime? OrderDate { get; internal set; }
+            public decimal TotalCost { get; internal set; }
+        }
+        /// <summary>
+        /// OrderDetailSummary is a POCO with
+        /// simple info of the detail items
+        /// in a customer order.
+        /// </summary>
+        public class OrderDetailSummary
+        {
+
+        }
         // TODO: 2) Employee Bio
         // TODO: 3) Product Catalogue (by Category)
         // TODO: 4) Suppliers and their Products (with category photo and category name)
