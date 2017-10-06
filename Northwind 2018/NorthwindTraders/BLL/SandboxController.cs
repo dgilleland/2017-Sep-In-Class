@@ -79,6 +79,7 @@ namespace NorthwindTraders.BLL
         }
         // TODO: 1) Customer Order History
         //          (dates, ship-to, freight, total cost, with order detail summary and employee rep)
+        [DataObjectMethod(DataObjectMethodType.Select)]
         public List<CustomerOrderHistory> ListAllCustomerOrders()
         {
             using (var context = new NorthwindContext())
@@ -90,7 +91,15 @@ namespace NorthwindTraders.BLL
                                   OrderDate = row.OrderDate,
                                   FreightCharge = row.Freight,
                                   TotalCost = (from item in row.OrderDetails
-                                               select item.Quantity * item.UnitPrice).Sum()
+                                               select item.Quantity * item.UnitPrice).Sum(),
+                                  OrderItems = (from item in row.OrderDetails
+                                                select new OrderDetailSummary()
+                                                {
+                                                    Product = item.Product.ProductName,
+                                                    Quantity = item.Quantity,
+                                                    UnitPrice = item.UnitPrice,
+                                                    Unit = item.Product.QuantityPerUnit
+                                                }).ToList()
                               };
                 return results.ToList();
             }
@@ -105,6 +114,7 @@ namespace NorthwindTraders.BLL
             public decimal? FreightCharge { get; internal set; }
             public DateTime? OrderDate { get; internal set; }
             public decimal TotalCost { get; internal set; }
+            public List<OrderDetailSummary> OrderItems { get; internal set; }
         }
         /// <summary>
         /// OrderDetailSummary is a POCO with
@@ -113,9 +123,44 @@ namespace NorthwindTraders.BLL
         /// </summary>
         public class OrderDetailSummary
         {
-
+            public string Product { get; internal set; }
+            public short Quantity { get; internal set; }
+            public string Unit { get; internal set; }
+            public decimal UnitPrice { get; internal set; }
         }
         // TODO: 2) Employee Bio
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<Bio> EmployeeBios()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from person in context.Employees
+                                  //foreach(var person in Employees)
+                              select new Bio
+                              {
+                                  FullName = person.FirstName + " " + person.LastName,
+                                  JobTitle = person.Title,
+                                  CompanyPhoneExtension = person.Extension,
+                                  Photo = person.Photo,
+                                  MimeType = person.PhotoMimeType,
+                                  Supervisor = person.Manager.FirstName + " "
+                                             + person.Manager.LastName, // TODO: Change for Visual Studio
+                                  Notes = person.Notes
+                              };
+                return results.ToList();
+            }
+        }
+
+        public class Bio
+        {
+            public string Notes { get; internal set; }
+            public string CompanyPhoneExtension { get; internal set; }
+            public string FullName { get; internal set; }
+            public string JobTitle { get; internal set; }
+            public string MimeType { get; internal set; }
+            public byte[] Photo { get; internal set; }
+            public string Supervisor { get; internal set; }
+        }
         // TODO: 3) Product Catalogue (by Category)
         // TODO: 4) Suppliers and their Products (with category photo and category name)
         // TODO: 5) Most Popular products sold (qty), by year and month
