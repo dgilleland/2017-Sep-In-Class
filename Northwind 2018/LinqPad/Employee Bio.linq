@@ -15,7 +15,7 @@ select new
     FullName = person.FirstName + " " + person.LastName,
 	JobTitle = person.Title,
 	CompanyPhoneExtension = person.Extension,
-	Photo = person.Photo,
+	Photo = person.Photo.ToImage(),
 	MimeType = person.PhotoMimeType,
 	Supervisor = person.ReportsToEmployee.FirstName + " "
 	           + person.ReportsToEmployee.LastName, // TODO: Change for Visual Studio
