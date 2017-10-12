@@ -1,6 +1,7 @@
 <Query Kind="Expression">
   <Connection>
     <ID>e5af68a8-d464-4274-880d-fcab824d01aa</ID>
+    <Persist>true</Persist>
     <Server>.</Server>
     <Database>Northwind_DMIT2018</Database>
   </Connection>
@@ -12,6 +13,7 @@ orderby sale.OrderDate
 select new
 {
 	Customer = sale.Customer.CompanyName,
+	City = sale.Customer.City,
 	OrderDate = sale.OrderDate,
 	TimeToShip = sale.RequiredDate.HasValue && sale.OrderDate.HasValue
 	           ? (sale.RequiredDate.Value - sale.OrderDate.Value).TotalDays
