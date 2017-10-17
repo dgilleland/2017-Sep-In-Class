@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\CRUD\RegionController.cs" />
+    <Compile Include="BLL\CRUD\ShipperController.cs" />
     <Compile Include="BLL\CRUD\TerritoryController.cs" />
     <Compile Include="BLL\SandboxController.cs" />
     <Compile Include="DAL\NorthwindContext.cs" />
