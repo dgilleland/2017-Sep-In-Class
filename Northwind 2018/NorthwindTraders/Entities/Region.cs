@@ -13,7 +13,11 @@ namespace NorthwindTraders.Entities
     {
         #region ColumnMappings
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RegionID { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string RegionDescription { get; set; }
         #endregion
 

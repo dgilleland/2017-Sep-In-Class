@@ -14,6 +14,7 @@ namespace NorthwindTraders.Entities
         #region Column Mappings
         [Key]
         public string TerritoryID { get; set; }
+        [StringLength(20)]
         public string TerritoryDescription { get; set; }
         public int RegionID { get; set; }
         #endregion

@@ -12,6 +12,7 @@ namespace NorthwindTraders.Entities
     public class Shipper
     {
         #region Column Mappings
+        // TODO: Add validation annotations for CompanyName and Phone
         [Key]
         public int ShipperID { get; set; }
         public string CompanyName { get; set; }
