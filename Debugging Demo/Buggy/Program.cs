@@ -25,6 +25,7 @@ namespace Buggy
                 ProcessMenuChoice(menuChoice);
             } while (menuChoice != "X");
         }
+
         private static void DisplayMenu()
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -38,6 +39,7 @@ namespace Buggy
             Console.ResetColor(); // reset colors to defaults
             Console.Write("Select an option from the menu: ");
         }
+
         private static void ProcessMenuChoice(string choice)
         {
             // Clear the screen on each menu choice
@@ -59,6 +61,9 @@ namespace Buggy
                 case "E": // Extreme Recursion
                     ExtremeRecursion();
                     break;
+                case "X": // eXit
+                    Console.WriteLine("\nThanks for trying this demo!\n");
+                    break;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Invalid menu choice.");
@@ -66,6 +71,7 @@ namespace Buggy
                     break;
             }
         }
+
         private static void DisplayAbout()
         {
             Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -109,6 +115,7 @@ namespace Buggy
             PauseDisplay();
             Console.Clear();
         }
+
         private static void ContinuousLoop()
         {
             Console.WriteLine("This demo loops for validating input ...");
@@ -116,35 +123,42 @@ namespace Buggy
             Console.WriteLine("\nBreak me by entering a real number instead of a whole number");
             int number;
             string userInput = Console.ReadLine();
-            while (!int.TryParse(Console.ReadLine(), out number))
+            while (!int.TryParse(userInput, out number))
                 Console.Write("\tNot a whole number. Try again: ");
 
             PauseDisplay();
             Console.Clear();
         }
+
         private static void DoubleOrNothing()
         {
             Console.WriteLine("This demo has an integer division problem...");
 
             int installStage = 45;
             double percentComplete = installStage / 100;
-            double remaining = (1 / percentComplete) * 100; // inversion - should be 65% remaining
+            double remaining = (1 / percentComplete) * 100; // inversion - should be 55% remaining
             Console.WriteLine($"You have {remaining} % left to download...");
             PauseDisplay();
             Console.Clear();
         }
+
         private static void ExtremeRecursion()
         {
-            Console.WriteLine("This demo counts down from 5 to zero, using recursion.\n");
-            CountDown(5);
+            int startFrom = 5;
+            Console.WriteLine($"This demo counts down from {startFrom} to 1, using recursion.\n");
+            CountDown(startFrom);
             PauseDisplay();
             Console.Clear();
         }
+
         private static void CountDown(int number)
         {
-            Console.Write($"{--number},\t");
+            Console.Write($"{number},\t");
             if (number != 0)
-                CountDown(number--);
+            {
+                number = number - 1;
+                CountDown(--number);
+            }
         }
         #endregion
     }
