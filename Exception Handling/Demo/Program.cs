@@ -26,7 +26,7 @@ namespace Demo
                 }
                 catch(Exception ex)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"ERROR: {ex.Message}");
                     Console.ResetColor();
                 }
