@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Website", "Website\", "{70956C61-C580-47CF-A12D-AA210F8B67C5}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
-		ProjectReferences = "{0e57438d-6e17-4777-bdb5-198c08167b4a}|NorthwindTraders.dll;"
+		ProjectReferences = "{0e57438d-6e17-4777-bdb5-198c08167b4a}|NorthwindTraders.dll;{940a4e38-47c9-4b09-b5fc-437cf95459f2}|NorthwindTraders.Security.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_2987"
 		Debug.AspNetCompiler.PhysicalPath = "Website\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_2987\"
@@ -28,6 +28,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Website", "Website\", "{709
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindTraders", "NorthwindTraders\NorthwindTraders.csproj", "{0E57438D-6E17-4777-BDB5-198C08167B4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindTraders.Security", "NorthwindTraders.Security\NorthwindTraders.Security.csproj", "{940A4E38-47C9-4B09-B5FC-437CF95459F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{0E57438D-6E17-4777-BDB5-198C08167B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E57438D-6E17-4777-BDB5-198C08167B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E57438D-6E17-4777-BDB5-198C08167B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{940A4E38-47C9-4B09-B5FC-437CF95459F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{940A4E38-47C9-4B09-B5FC-437CF95459F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{940A4E38-47C9-4B09-B5FC-437CF95459F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{940A4E38-47C9-4B09-B5FC-437CF95459F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
