@@ -139,14 +139,54 @@
                 </LayoutTemplate>
                 <ItemTemplate>
                     <div>
+                        <asp:Button ID="EditButton" runat="server"
+                             Text="Edit" CommandName="Edit" />
+                        <asp:Button ID="DeleteButton" runat="server"
+                             Text="Delete" CommandName="Delete" />
                         <asp:Label ID="TerritoryDescriptionLabel" runat="server"
                              Text='<%# Item.TerritoryDescription + " (" + Item.Region.RegionDescription + ")" %>' />
                     </div>
                 </ItemTemplate>
-                <InsertItemTemplate></InsertItemTemplate>
+                <EditItemTemplate>
+                    <div>
+                        <asp:Button ID="UpdateButton" runat="server"
+                             Text="Update" CommandName="Update" />
+                        <asp:Button ID="CancelButton" runat="server"
+                             Text="Cancel" CommandName="Cancel" />
+                        <asp:TextBox ID="TerritoryDescriptionTextBox" runat="server"
+                             Text="<%# BindItem.TerritoryDescription %>" />
+                        <asp:DropDownList ID="TerritoryRegionDropDown" runat="server"
+                             DataSourceID="RegionsDataSource"
+                             DataValueField="RegionID" DataTextField="RegionDescription"
+                             SelectedValue="<%# BindItem.RegionID %>"
+                             AppendDataBoundItems="true">
+                            <asp:ListItem Value="0">[Select a Region]</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </EditItemTemplate>
+                <InsertItemTemplate>
+                    <div>
+                        <asp:Button ID="InsertButton" runat="server"
+                             Text="Insert" CommandName="Insert" />
+                        <asp:Button ID="CancelButton" runat="server"
+                             Text="Cancel" CommandName="Cancel" />
+                        <asp:TextBox ID="TerritoryDescriptionTextBox" runat="server"
+                             Text="<%# BindItem.TerritoryDescription %>" />
+                        <asp:DropDownList ID="TerritoryRegionDropDown" runat="server"
+                             DataSourceID="RegionsDataSource"
+                             DataValueField="RegionID" DataTextField="RegionDescription"
+                             SelectedValue="<%# BindItem.RegionID %>"
+                             AppendDataBoundItems="true">
+                            <asp:ListItem Value="0">[Select a Region]</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </InsertItemTemplate>
             </asp:ListView>
 
-            <asp:ObjectDataSource ID="TerritoriesDataSource" runat="server" DataObjectTypeName="NorthwindTraders.Entities.Territory" DeleteMethod="DeleteTerritory" InsertMethod="AddTerritory" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAllTerritories" TypeName="NorthwindTraders.BLL.CRUD.TerritoryController" UpdateMethod="UpdateTerritory"></asp:ObjectDataSource>
+            <asp:ObjectDataSource ID="TerritoriesDataSource" runat="server" DataObjectTypeName="NorthwindTraders.Entities.Territory" DeleteMethod="DeleteTerritory" InsertMethod="AddTerritory" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAllTerritories" TypeName="NorthwindTraders.BLL.CRUD.TerritoryController" UpdateMethod="UpdateTerritory"                
+                 OnDeleted="CheckForException"
+                 OnInserted="CheckForException"
+                 OnUpdated="CheckForException"></asp:ObjectDataSource>
         </div>
     </div>
 
