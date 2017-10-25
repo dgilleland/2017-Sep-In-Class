@@ -28,6 +28,9 @@ namespace Draw
             Console.WriteLine("B) Draw Slash");
             Console.WriteLine("C) Draw Backslash");
             Console.WriteLine("D) Draw X");
+            Console.WriteLine("E) Draw Z");
+            Console.WriteLine("F) Draw Tic-Tac-Toe board");
+
             Console.WriteLine("X) eXit ");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\tEnter a menu choice: ");
@@ -54,6 +57,13 @@ namespace Draw
                 case "D":
                     size = GetSize();
                     DrawX(size);
+                    break;
+                case "E":
+                    size = GetSize();
+                    DrawZ(size);
+                    break;
+                case "F":
+                    DrawTicTacToe();
                     break;
                 case "X":
                     Console.WriteLine("\n\nGoodbye!");
@@ -132,6 +142,41 @@ namespace Draw
                         Console.Write("*");
                     else
                         Console.Write(".");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static void DrawZ(int size)
+        {
+            for (int row = 1; row <= size; row++)
+            {
+                for (int col = 1; col <= size; col++)
+                {
+                    if (row == 1 || row == size || row + col == size + 1)
+                        Console.Write("Z");
+                    else
+                        Console.Write(" ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        private static void DrawTicTacToe()
+        {
+            
+            for (int row = 1; row <= 5; row++)
+            {
+                for (int col = 1; col <= 5; col++)
+                {
+                    if (row % 2 == 0 && col % 2 == 0)
+                        Console.Write("+");
+                    else if (row % 2 == 0)
+                        Console.Write("-");
+                    else if (col % 2 == 0)
+                        Console.Write("|");
+                    else
+                        Console.Write(" ");
                 }
                 Console.WriteLine();
             }
