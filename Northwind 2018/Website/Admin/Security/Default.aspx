@@ -15,6 +15,36 @@
             <div class="tab-content">
                 <div id="users" class="tab-pane fade in active">
                     <blockquote>Registered Users in the Site</blockquote>
+                    <asp:ListView ID="UsersListView" runat="server"
+                         DataSourceID="UsersDataSource"
+                         ItemType="NorthwindTraders.Security.Entities.UserProfile">
+                        <LayoutTemplate>
+                            <div class="row bg-info">
+                                <div class="col-sm-3 h4">Action</div>
+                                <div class="col-sm-3 h4">User</div>
+                                <div class="col-sm-6 h4">Profile Info</div>
+                            </div>
+                            <div runat="server" id="itemPlaceholder"></div>
+                        </LayoutTemplate>
+                        <ItemTemplate>
+                            <div class="row">
+                                <div class="col-sm-3">TODO</div>
+                                <div class="col-sm-3">
+                                    <%# Item.UserName %>
+                                </div>
+                                <div class="col-sm-6">
+                                    Email: <%# Item.Email %>
+                                    <asp:CheckBox ID="IsConfirmed" runat="server"
+                                         Enabled="false" Checked="<%# Item.EmailConfirmed %>"
+                                         Text="Confirmed" />
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                    </asp:ListView>
+                    <asp:ObjectDataSource runat="server" ID="UsersDataSource"
+                         OldValuesParameterFormatString="original_{0}"
+                         TypeName="Website.UserManager"
+                         SelectMethod="ListAllUsers"></asp:ObjectDataSource>
                 </div>
 
                 <div id="roles" class="tab-pane fade in">

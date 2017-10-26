@@ -61,6 +61,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
