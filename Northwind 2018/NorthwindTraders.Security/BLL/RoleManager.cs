@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework; // for IdentityRole
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Website; // for ApplicationDbContext
 
 namespace NorthwindTraders.Security.BLL
 {
+    [DataObject]
     public class RoleManager : RoleManager<IdentityRole>
     {
         public RoleManager()
@@ -29,5 +31,16 @@ namespace NorthwindTraders.Security.BLL
                 }
             }
         }
+
+        #region Standard CRUD Methods
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<string> ListAllSecurityRoles()
+        {
+            var results = from role in Roles.ToList()
+                          select role.Name;
+            return results.ToList();
+                      
+        }
+        #endregion
     }
 }
