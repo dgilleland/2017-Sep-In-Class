@@ -37,6 +37,10 @@
                                     <asp:CheckBox ID="IsConfirmed" runat="server"
                                          Enabled="false" Checked="<%# Item.EmailConfirmed %>"
                                          Text="Confirmed" />
+                                    <br />
+                                    <%# Item.EmployeeId.HasValue ? "Employee"
+                                        : !string.IsNullOrEmpty(Item.CustomerId) ? "Customer"
+                                        : "-unassigned-" %>
                                 </div>
                             </div>
                         </ItemTemplate>

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\RoleManager.cs" />
     <Compile Include="BLL\UserManager.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />

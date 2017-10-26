@@ -15,6 +15,24 @@ namespace Website // TODO: rename namespace NorthwindTraders.Security.BLL
         {
         }
 
+        public void AddWewbMaster()
+        {
+            // Add a web master user, if one doesn't exist
+            string username = "Webmaster@Northwind.tba";
+            if(!Users.Any(u => u.UserName.Equals(username)))
+            {
+                var webMasterAccount = new ApplicationUser()
+                {
+                    UserName = username,
+                    Email = username, // nice happenstance :)
+                    EmailConfirmed = true
+                };
+                this.Create(webMasterAccount, "Pa$$word1");
+                // Add the webmaster account to the Administrators security role
+                this.AddToRole(webMasterAccount.Id, "Administrators");
+            }
+        }
+
         #region Standard CRUD Operations for Users
         [DataObjectMethod(DataObjectMethodType.Select)]
         public List<UserProfile> ListAllUsers()
