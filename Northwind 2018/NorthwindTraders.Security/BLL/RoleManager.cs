@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework; // for IdentityRole
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace NorthwindTraders.Security.BLL
         public void AddStartupRoles()
         {
             // Security roles that will added on startup
-            var startupRoles = new string[] { "Administrators", "Employees", "Customers" };
+            var startupRoles = ConfigurationManager.AppSettings["startupRoles"].Split(';');
             foreach(var roleName in startupRoles)
             {
                 // Check if it exists

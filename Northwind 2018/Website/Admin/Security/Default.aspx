@@ -31,6 +31,8 @@
                                 <div class="col-sm-3">TODO</div>
                                 <div class="col-sm-3">
                                     <%# Item.UserName %>
+                                    <br />
+                                    <%# Item.FullName %>
                                 </div>
                                 <div class="col-sm-6">
                                     Email: <%# Item.Email %>
@@ -41,6 +43,9 @@
                                     <%# Item.EmployeeId.HasValue ? "Employee"
                                         : !string.IsNullOrEmpty(Item.CustomerId) ? "Customer"
                                         : "-unassigned-" %>
+                                    <br />
+                                    <label>Security Roles: </label>
+                                    <%# string.Join(", ",Item.RoleMemberships) %>
                                 </div>
                             </div>
                         </ItemTemplate>
