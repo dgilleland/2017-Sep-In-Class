@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="EditSalesAreas.aspx.cs" Inherits="Admin_CRUD_EditSalesAreas" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="My" TagName="MessageUserControl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
     <div class="jumbotron">
         <h1>Sales Management Areas</h1>
@@ -8,7 +11,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <asp:Label ID="MessageLabel" runat="server" />
+            <My:MessageUserControl runat="server" ID="MessageUserControl" />
         </div>
     </div>
 
