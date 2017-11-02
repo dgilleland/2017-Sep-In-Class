@@ -52,13 +52,16 @@
     <Compile Include="BLL\CRUD\RegionController.cs" />
     <Compile Include="BLL\CRUD\ShipperController.cs" />
     <Compile Include="BLL\CRUD\TerritoryController.cs" />
+    <Compile Include="BLL\ProductCatalogueController.cs" />
     <Compile Include="BLL\SandboxController.cs" />
     <Compile Include="DAL\NorthwindContext.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\DTOs\ProductCategory.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
+    <Compile Include="Entities\POCOs\ProductInfo.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Region.cs" />
     <Compile Include="Entities\Shipper.cs" />
