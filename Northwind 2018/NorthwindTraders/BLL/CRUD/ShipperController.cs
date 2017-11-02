@@ -3,6 +3,7 @@ using NorthwindTraders.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace NorthwindTraders.BLL.CRUD
@@ -34,8 +35,12 @@ namespace NorthwindTraders.BLL.CRUD
         {
             using (var context = new NorthwindContext())
             {
-                var existing = context.Entry(info); // Associate the info passed in with the db
+                // .Entry(obj) - Associate the info passed in with the db
+                DbEntityEntry<Shipper> existing = context.Entry(info);
+                // Tell EF that we are modifying the entire stored state with our info
                 existing.State = System.Data.Entity.EntityState.Modified;
+                // The SaveChanges will take this modified state and execute an update
+                // on the db
                 context.SaveChanges();
             }
         }
