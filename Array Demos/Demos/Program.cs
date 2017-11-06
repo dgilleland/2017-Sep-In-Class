@@ -43,6 +43,44 @@ namespace Demos
                 Console.WriteLine($"We found {found} at position {foundPosition}");
             else
                 Console.WriteLine("Name was not found.");
+
+            // B) Search an array for non-unique values (possible duplicates)
+            Console.WriteLine();
+            Console.Write("Enter the number of characters in the search name: ");
+            int searchLength;
+            while (!int.TryParse(Console.ReadLine(), out searchLength))
+                Console.Write("\tTry again: ");
+            string[] searchResults = new string[uniqueNames.Length];
+            int logicalSize = 0;
+            for(int index = 0; index < uniqueNames.Length; index++)
+            {
+                if(uniqueNames[index].Length == searchLength)
+                {
+                    // copy the item to the search results
+                    // note that logicalSize also is the index position
+                    // of the next available slot in the searchResults
+                    searchResults[logicalSize] = uniqueNames[index];
+                    // Increment my logical size
+                    logicalSize++;
+                }
+            }
+            Console.WriteLine("Found the following names:");
+            for (int index = 0; index < logicalSize; index++)
+                Console.Write(searchResults[index] + ", ");
+
+            // B-2) We can "shrink" the results by copying to another array
+            string[] temp = new string[logicalSize];
+            for (int index = 0; index < logicalSize; index++)
+                temp[index] = searchResults[index];
+            // replace the original search results with the temp
+            searchResults = temp;
+            Console.WriteLine();
+            Console.WriteLine("\nWe can join the string array elements into a single string, with a delimiter.");
+            Console.Write("Enter a delimiter: ");
+            string delimiter = Console.ReadLine();
+
+            string results = string.Join(delimiter, searchResults);
+            Console.WriteLine(results);
         }
 
         static void DemoArrayAsReferenceType()
