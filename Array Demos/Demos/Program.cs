@@ -15,8 +15,35 @@ namespace Demos
             // TODO: Set up menu, and a ProcessMenuChoice method
             //TotalNumbers();
             //DemoLargest();
-            DemoArrayAsReferenceType();
+            //DemoArrayAsReferenceType();
+            DemoSearchingArrays();
         } // end of the Main() method
+
+        static void DemoSearchingArrays()
+        {
+            // Searching un-sorted arrays
+            // A) Searching an array of unique values
+            string[] uniqueNames = { "Dan", "Don", "Phil", "Sam", "Gerry", "Jerry", "Lucy", "Annette", "Tim", "Bobby" };
+            Console.Write("Enter a name to search for: ");
+            string searchName = Console.ReadLine();
+            string found = null; // we may or may not find the name
+            int foundPosition = -1;
+            for(int index = 0; index < uniqueNames.Length; index++)
+            {
+                if(uniqueNames[index] == searchName)
+                {
+                    found = uniqueNames[index];
+                    foundPosition = index;
+                    // Optionally, we can exit the loop as soon as we've
+                    // found the searchName
+                    break; // force-exits the loop
+                }
+            }
+            if (foundPosition >= 0)
+                Console.WriteLine($"We found {found} at position {foundPosition}");
+            else
+                Console.WriteLine("Name was not found.");
+        }
 
         static void DemoArrayAsReferenceType()
         {
