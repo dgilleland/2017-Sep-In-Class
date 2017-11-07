@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using NorthwindTraders.DAL;
 using NorthwindTraders.Security.BLL;
 using NorthwindTraders.Security.Entities; // UserProfile
+using System;
 using System.Collections.Generic; // List<T>
 using System.ComponentModel; // [DataObject] et.al.
 using System.Configuration;
@@ -65,6 +66,28 @@ namespace Website // TODO: rename namespace NorthwindTraders.Security.BLL
             }
 
             return result.ToList();
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Insert)]
+        public void AddUser(UserProfile userInfo)
+        {
+            var userAccount = new ApplicationUser()
+            {
+                UserName = userInfo.UserName,
+                Email = userInfo.Email
+            };
+            this.Create(userAccount, ConfigurationManager.AppSettings["newUserPassword"]);
+            foreach (var roleName in userInfo.RoleMemberships)
+                this.AddToRole(userAccount.Id, roleName);
+        }
+
+
+        [DataObjectMethod(DataObjectMethodType.Delete, true)]
+        public void RemoveUser(UserProfile userInfo)
+        {
+            if (userInfo.UserName == ConfigurationManager.AppSettings["adminUserName"])
+                throw new Exception("The webmaster account cannot be removed");
+            this.Delete(this.FindById(userInfo.UserId));
         }
         #endregion
     }
