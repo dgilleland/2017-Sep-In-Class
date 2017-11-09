@@ -10,6 +10,10 @@ git commit -m "Website with bin"
 
 ----
 
+## GitHub Videos
+
+Here's a set of excellent [GitHub Training](https://youtu.be/xSv_m3KhUO8) videos, from the makers of GitHub.
+
 ## LINQ
 
 For practicing Linq, try the [LINQ Quiz](http://www.albahari.com/nutshell/linqquiz.aspx) from C# 7.0 in a Nutshell.
