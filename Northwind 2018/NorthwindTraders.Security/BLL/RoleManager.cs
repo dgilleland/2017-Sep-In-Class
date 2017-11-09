@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity; // for RoleManager<T>
 using Microsoft.AspNet.Identity.EntityFramework; // for IdentityRole
+using NorthwindTraders.Security.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,12 +36,31 @@ namespace NorthwindTraders.Security.BLL
 
         #region Standard CRUD Methods
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<string> ListAllSecurityRoles()
+        public List<RoleProfile> ListAllRoles()
         {
-            var results = from role in Roles.ToList()
-                          select role.Name;
-            return results.ToList();
-                      
+            var um = new UserManager();
+            var result = from data in Roles.ToList() // .ToList() pulls db data into memory
+                         select new RoleProfile()
+                         {
+                             RoleId = data.Id,
+                             RoleName = data.Name,
+                             UserNames = data.Users.Select(u => um.FindById(u.UserId).UserName)
+                         };
+
+            return result.ToList();
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Insert, true)]
+        public void AddRole(RoleProfile role)
+        {
+            if (!this.RoleExists(role.RoleName))
+                this.Create(new IdentityRole(role.RoleName));
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Delete, true)]
+        public void RemoveRole(RoleProfile role)
+        {
+            this.Delete(this.FindById(role.RoleId));
         }
         #endregion
     }

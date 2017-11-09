@@ -96,6 +96,50 @@
 
                 <div id="roles" class="tab-pane fade in">
                     <blockquote>Security Roles for the Site</blockquote>
+                <asp:ListView ID="RoleListView" runat="server" DataSourceID="RoleDataSource" 
+                         InsertItemPosition="LastItem" DataKeyNames="RoleId" 
+                         ItemType="NorthwindTraders.Security.Entities.RoleProfile"
+                         OnItemDeleted="RefreshAll" OnItemInserted="RefreshAll">
+                        <EmptyDataTemplate>
+                            <span>No security roles have been set up.</span>
+                        </EmptyDataTemplate>
+                        <LayoutTemplate>
+                            <div class="row bg-info">
+                                <div class="col-sm-3 h4">Action</div>
+                                <div class="col-sm-3 h4">Role</div>
+                                <div class="col-sm-6 h4">Members</div>
+                            </div>
+                            <div runat="server" id="itemPlaceholder"></div>
+                        </LayoutTemplate>
+                        <ItemTemplate>
+                            <div class="row">
+                                <div class="col-sm-3"><asp:LinkButton runat="server" CommandName="Delete" Text="Delete" ID="DeleteButton" /></div>
+                                <div class="col-sm-3">
+                                    <%# Item.RoleName %>
+                                </div>
+                                <div class="col-sm-6">
+                                    <asp:Repeater ID="RoleUserRepeater" runat="server"
+                                            DataSource="<%# Item.UserNames %>" ItemType="System.String">
+                                        <ItemTemplate><%# Item %></ItemTemplate>
+                                        <SeparatorTemplate>, </SeparatorTemplate>
+                                    </asp:Repeater>
+                                </div>
+                            </div>
+                        </ItemTemplate>
+                        <InsertItemTemplate>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <asp:LinkButton runat="server" CommandName="Insert" Text="Insert" ID="InsertButton" />
+                                    <asp:LinkButton runat="server" CommandName="Cancel" Text="Clear" ID="CancelButton" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <asp:TextBox Text='<%# BindItem.RoleName %>' runat="server" ID="RoleNameTextBox" placeholder="Role Name" />
+                                </div>
+                            </div>
+                        </InsertItemTemplate>
+                    </asp:ListView>
+                    <asp:ObjectDataSource runat="server" ID="RoleDataSource" DataObjectTypeName="NorthwindTraders.Security.Entities.RoleProfile" DeleteMethod="RemoveRole" InsertMethod="AddRole" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAllRoles" TypeName="NorthwindTraders.Security.BLL.RoleManager"></asp:ObjectDataSource>
                 </div>
 
                 <div id="unregistered" class="tab-pane fade in">

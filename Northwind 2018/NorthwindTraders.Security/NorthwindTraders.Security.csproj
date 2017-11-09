@@ -63,6 +63,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\RoleProfile.cs" />
     <Compile Include="Entities\UnregisteredUser.cs" />
     <Compile Include="Entities\UnregisteredUserType.cs" />
     <Compile Include="Entities\UserProfile.cs" />
