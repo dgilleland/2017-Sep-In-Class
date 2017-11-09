@@ -1,11 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Admin_Security_Default" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <div class="row jumbotron">
         <h1>Site Administration</h1>
     </div>
     <div class="row">
         <div class="col-md-12">
+            <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
             <!-- Nav tabs via Bootstrap -->
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#users" data-toggle="tab">Users</a></li>
@@ -41,7 +45,7 @@
                                 <div class="col-sm-5">
                                     <%# Item.FullName %>
                                     <br />
-                                    Email: <%# Item.Email %>
+                                    Email: <%# string.IsNullOrEmpty(Item.Email) ? "-no email-" : Item.Email %>
                                     <asp:CheckBox ID="IsConfirmed" runat="server"
                                          Enabled="false" Checked="<%# Item.EmailConfirmed %>"
                                          Text="Confirmed" />
@@ -85,7 +89,9 @@
                          DataObjectTypeName="NorthwindTraders.Security.Entities.UserProfile"
                          SelectMethod="ListAllUsers"
                          InsertMethod="AddUser"
-                         DeleteMethod="RemoveUser"></asp:ObjectDataSource>
+                         DeleteMethod="RemoveUser"
+                         OnInserted="CheckForException"
+                         OnDeleted="CheckForException"></asp:ObjectDataSource>
                 </div>
 
                 <div id="roles" class="tab-pane fade in">
@@ -94,6 +100,35 @@
 
                 <div id="unregistered" class="tab-pane fade in">
                     <blockquote>Users who are not assigned to security roles</blockquote>
+                <asp:GridView ID="UnregisteredUsersGridView" runat="server" 
+                         CssClass="table table-hover" AutoGenerateColumns="False" 
+                         DataSourceID="UnregisteredUserDataSource"
+                         ItemType="NorthwindTraders.Security.Entities.UnregisteredUser" 
+                         AllowPaging="True" DataKeyNames="Id"
+                         OnSelectedIndexChanging="UnregisteredUsersGridView_SelectedIndexChanging">
+                        <Columns>
+                            <asp:CommandField ShowSelectButton="True"></asp:CommandField>
+                            <asp:BoundField DataField="UserType" HeaderText="User Type" SortExpression="UserType"></asp:BoundField>
+                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"></asp:BoundField>
+                            <asp:BoundField DataField="OtherName" HeaderText="Other Name" SortExpression="OtherName"></asp:BoundField>
+                            <asp:TemplateField HeaderText="Assigned UserName" SortExpression="AssignedUserName">
+                                <ItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# Bind("AssignedUserName") %>' ID="GivenUserName"></asp:TextBox>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Assigned Email" SortExpression="AssignedEmail">
+                                <ItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# Bind("AssignedEmail") %>' ID="GivenEmail"></asp:TextBox>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Phone" SortExpression="Phone">
+                                <ItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# Bind("Phone") %>' ID="Phone"></asp:TextBox>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                    <asp:ObjectDataSource runat="server" ID="UnregisteredUserDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="ListAllUnregsiteredUsers" TypeName="Website.UserManager"></asp:ObjectDataSource>
                 </div>
             </div>
         </div>

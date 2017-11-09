@@ -85,9 +85,100 @@ namespace Website // TODO: rename namespace NorthwindTraders.Security.BLL
         [DataObjectMethod(DataObjectMethodType.Delete, true)]
         public void RemoveUser(UserProfile userInfo)
         {
-            if (userInfo.UserName == ConfigurationManager.AppSettings["adminUserName"])
+            // userInfo only has the .UserId, therefore we need to get
+            // the complete ApplicationUser object to check the .UserName
+            var user = Users.Single(u => u.Id == userInfo.UserId);
+            if (user.UserName == ConfigurationManager.AppSettings["adminUserName"])
                 throw new Exception("The webmaster account cannot be removed");
             this.Delete(this.FindById(userInfo.UserId));
+        }
+        #endregion
+
+        #region Business Process Operations
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<UnregisteredUser> ListAllUnregsiteredUsers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                // Make an in-memory list of employees who have login accounts
+                var registeredEmployees = (from emp in Users
+                                           where emp.EmployeeId.HasValue
+                                           select emp.EmployeeId).ToList();
+                // Query employees who don't have login accounts.
+                // Make it in-memory (.ToList()) for the next step of assigning usernames/emails
+                var employees = (from emp in context.Employees
+                                 where !registeredEmployees.Any(e => emp.EmployeeID == e)
+                                 select new UnregisteredUser()
+                                 {
+                                     Id = emp.EmployeeID.ToString(),
+                                     Name = emp.FirstName,
+                                     OtherName = emp.LastName,
+                                     UserType = UnregisteredUserType.Employee
+                                 }).ToList();
+                // Assign employee usernames and emails
+                foreach (var person in employees)
+                {
+                    string generatedUserName = $"{person.Name}.{person.OtherName}".Replace(" ", "");
+                    person.AssignedUserName = generatedUserName;
+                    string generatedEmail = $"{generatedUserName}@Northwind.tba";
+                    person.AssignedEmail = generatedEmail;
+                }
+
+                // Make an in-memory list of customers who have login accounts
+                var registeredCustomers = (from cust in Users
+                                           where cust.CustomerId != null
+                                           select cust.CustomerId).ToList();
+                // Query customers who don't have login accounts.
+                var customers = from cust in context.Customers
+                                where !registeredCustomers.Any(c => cust.CustomerID == c)
+                                select new UnregisteredUser()
+                                {
+                                    Id = cust.CustomerID,
+                                    Name = cust.ContactName,
+                                    OtherName = cust.CompanyName,
+                                    Phone = cust.Phone,
+                                    UserType = UnregisteredUserType.Customer
+                                };
+
+                // Merge and return the results
+                return employees.Union(customers).ToList();
+            }
+        }
+
+        public void RegisterUser(UnregisteredUser userInfo)
+        {
+            // Basic validation
+            if (userInfo == null)
+                throw new ArgumentNullException(nameof(userInfo), "Data for unregistered users is required");
+            if (string.IsNullOrEmpty(userInfo.AssignedUserName))
+                throw new ArgumentException(nameof(userInfo.AssignedUserName), "New users must have a username");
+            // string randomPassword = Guid.NewGuid().ToString().Replace("-", "");
+            var userAccount = new ApplicationUser()
+            {
+                UserName = userInfo.AssignedUserName,
+                Email = userInfo.AssignedEmail
+            };
+            switch (userInfo.UserType)
+            {
+                case UnregisteredUserType.Customer:
+                    userAccount.CustomerId = userInfo.Id;
+                    userAccount.PhoneNumber = userInfo.Phone;
+                    break;
+                case UnregisteredUserType.Employee:
+                    userAccount.EmployeeId = int.Parse(userInfo.Id);
+                    break;
+            }
+
+            this.Create(userAccount, ConfigurationManager.AppSettings["newUserPassword"]); // or randomPassword
+            switch (userInfo.UserType)
+            {
+                case UnregisteredUserType.Employee:
+                    this.AddToRole(userAccount.Id, ConfigurationManager.AppSettings["employeeRole"]);
+                    break;
+                case UnregisteredUserType.Customer:
+                    this.AddToRole(userAccount.Id, ConfigurationManager.AppSettings["customerRole"]);
+                    break;
+            }
         }
         #endregion
     }

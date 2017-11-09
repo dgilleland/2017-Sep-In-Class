@@ -19,5 +19,6 @@ namespace NorthwindTraders.Security.Entities
         public string OtherName { get; set; }
         public string AssignedUserName { get; set; }
         public string AssignedEmail { get; set; }
+        public string Phone { get; set; }
     }
 }
