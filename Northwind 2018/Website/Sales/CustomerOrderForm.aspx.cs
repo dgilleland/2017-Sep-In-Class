@@ -59,12 +59,19 @@ public partial class Sales_CustomerOrderForm : Page
     #region Order Creation/Selection
     protected void NewOrder_Click(object sender, EventArgs e)
     {
-
+        // Hide the history GridView
+        // prepare the OrderItemsListView for bulk editing
     }
 
     protected void CustomerOrderHistoryGridView_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        // if selected
+        //    disable the NewOrder button
+        //    prepare the OrderItemsListView
+        //    if order is shipped
+        //        disable the OrderItemsListView
+        // else
+        //    enable the NewOrder button
     }
     #endregion
 }

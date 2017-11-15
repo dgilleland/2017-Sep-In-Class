@@ -41,7 +41,7 @@
             </asp:RadioButtonList>
             <asp:ObjectDataSource runat="server" ID="HistoryFilterDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="GetOrderHistoryFilters" TypeName="NorthwindTraders.BLL.SalesController"></asp:ObjectDataSource>
             <hr />
-            <asp:GridView ID="CustomerOrderHistoryGridView" runat="server" CssClass="table table-condensed table-hover" AutoGenerateColumns="False" DataSourceID="OrderHistoryDataSource" DataKeyNames="OrderId" OnSelectedIndexChanged="CustomerOrderHistoryGridView_SelectedIndexChanged">
+            <asp:GridView ID="CustomerOrderHistoryGridView" runat="server" CssClass="table table-condensed table-hover" AutoGenerateColumns="False" DataSourceID="OrderHistoryDataSource" DataKeyNames="OrderId" OnSelectedIndexChanged="CustomerOrderHistoryGridView_SelectedIndexChanged" SelectedRowStyle-CssClass="active">
                 <Columns>
                     <asp:CommandField ShowSelectButton="True"></asp:CommandField>
                 </Columns>
