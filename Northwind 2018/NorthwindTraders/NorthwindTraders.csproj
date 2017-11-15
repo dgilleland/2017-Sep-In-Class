@@ -53,6 +53,7 @@
     <Compile Include="BLL\CRUD\ShipperController.cs" />
     <Compile Include="BLL\CRUD\TerritoryController.cs" />
     <Compile Include="BLL\ProductCatalogueController.cs" />
+    <Compile Include="BLL\SalesController.cs" />
     <Compile Include="BLL\SandboxController.cs" />
     <Compile Include="DAL\NorthwindContext.cs" />
     <Compile Include="Entities\Category.cs" />
@@ -61,6 +62,10 @@
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
+    <Compile Include="Entities\POCOs\Address.cs" />
+    <Compile Include="Entities\POCOs\CustomerOrder.cs" />
+    <Compile Include="Entities\POCOs\CustomerSummary.cs" />
+    <Compile Include="Entities\POCOs\KeyValueOption.cs" />
     <Compile Include="Entities\POCOs\ProductInfo.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Region.cs" />
