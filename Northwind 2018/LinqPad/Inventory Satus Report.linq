@@ -1,6 +1,6 @@
 <Query Kind="Expression">
   <Connection>
-    <ID>c3c442ec-7d55-4319-843f-d9fffadc6a63</ID>
+    <ID>e5af68a8-d464-4274-880d-fcab824d01aa</ID>
     <Persist>true</Persist>
     <Server>.</Server>
     <Database>Northwind_DMIT2018</Database>
@@ -9,7 +9,6 @@
 
 from data in Products
 where !data.Discontinued
-select new
 {
     data.Supplier.CompanyName,
     data.Category.CategoryName,
