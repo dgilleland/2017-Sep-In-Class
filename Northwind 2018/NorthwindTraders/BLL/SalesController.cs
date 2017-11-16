@@ -97,5 +97,29 @@ namespace NorthwindTraders.BLL
             }
         }
         #endregion
+
+        #region Reporting
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<RegionalManager> GetRegionalManagers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = from emp in context.Employees
+                             from data in emp.Territories
+                             orderby data.Region.RegionDescription, emp.LastName, data.TerritoryDescription
+                             select new RegionalManager
+                             {
+                                 Region = data.Region.RegionDescription,
+                                 Territory = data.TerritoryDescription,
+                                 TerritoryZip = data.TerritoryID,
+                                 FirstName = emp.FirstName,
+                                 LastName = emp.LastName,
+                                 City = emp.City,
+                                 State = emp.Region
+                             };
+                return result.ToList();
+            }
+        }
+        #endregion
     }
 }

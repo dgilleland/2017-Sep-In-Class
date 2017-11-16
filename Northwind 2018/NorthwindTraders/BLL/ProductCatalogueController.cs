@@ -38,5 +38,27 @@ namespace NorthwindTraders.BLL
                 return result.ToList();
             }
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<InventoryStatus> GetInventoryStatus()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from data in context.Products
+                              where !data.Discontinued
+                              select new InventoryStatus
+                              {
+                                  Supplier = data.Supplier.CompanyName,
+                                  Category = data.Category.CategoryName,
+                                  Product = data.ProductName,
+                                  UnitPrice = data.UnitPrice,
+                                  InStockQuantity = data.UnitsInStock,
+                                  QuantityPerUnit = data.QuantityPerUnit,
+                                  OnOrderQuantity = data.UnitsOnOrder,
+                                  ReorderLevel = data.ReorderLevel
+                              };
+                return results.ToList();
+            }
+        }
     }
 }

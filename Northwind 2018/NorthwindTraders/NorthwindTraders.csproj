@@ -65,8 +65,10 @@
     <Compile Include="Entities\POCOs\Address.cs" />
     <Compile Include="Entities\POCOs\CustomerOrder.cs" />
     <Compile Include="Entities\POCOs\CustomerSummary.cs" />
+    <Compile Include="Entities\POCOs\InventoryStatus.cs" />
     <Compile Include="Entities\POCOs\KeyValueOption.cs" />
     <Compile Include="Entities\POCOs\ProductInfo.cs" />
+    <Compile Include="Entities\POCOs\RegionalManager.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Region.cs" />
     <Compile Include="Entities\Shipper.cs" />
