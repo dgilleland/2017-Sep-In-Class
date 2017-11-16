@@ -9,6 +9,7 @@
 
 from data in Products
 where !data.Discontinued
+select new // InventoryStatus // POCO class
 {
     data.Supplier.CompanyName,
     data.Category.CategoryName,
