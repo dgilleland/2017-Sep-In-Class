@@ -10,7 +10,10 @@ public partial class Admin_Security_Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!Request.IsAuthenticated)
+            Response.Redirect("~/Account/Login.aspx", true);
+        else if (!User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["adminRole"]))
+            Response.Redirect("~", true);
     }
 
     protected List<string> GetRoleNames()

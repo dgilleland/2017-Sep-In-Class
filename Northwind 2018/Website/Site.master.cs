@@ -66,7 +66,11 @@ public partial class SiteMaster : MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if(!Request.IsAuthenticated)
+        {
+            // Hide all the "links" that the user should not see
+            Menu_UsersAndRoles.Visible = false;
+        }
     }
 
     protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)

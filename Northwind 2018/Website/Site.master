@@ -53,7 +53,7 @@
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
-                        <li><a runat="server" id="MenuSecurityAdmin" href="~/Admin/Security/Default.aspx">Users and Roles</a></li>
+                        <li ID="Menu_UsersAndRoles" runat="server"><a runat="server" id="MenuSecurityAdmin" href="~/Admin/Security/Default.aspx">Users and Roles</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
