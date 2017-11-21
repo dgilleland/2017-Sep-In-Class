@@ -1,4 +1,5 @@
 ﻿using NorthwindTraders.DAL;
+using NorthwindTraders.Entities.DTOs;
 using NorthwindTraders.Entities.POCOs;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,21 @@ namespace NorthwindTraders.BLL
             results.Add(new KeyValueOption { Key = "open", Text = "Open" });
             results.Add(new KeyValueOption { Key = "shipped", Text = "Shipped" });
             return results.ToList();
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<KeyValueOption> GetProducts()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var results = from data in context.Products
+                              select new KeyValueOption
+                              {
+                                  Text = data.ProductName,
+                                  Key = data.ProductID.ToString()
+                              };
+                return results.ToList();
+            }
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
@@ -94,6 +110,39 @@ namespace NorthwindTraders.BLL
                     Phone = customer.Phone,
                     Fax = customer.Fax
                 };
+            }
+        }
+
+        public CustomerOrderWithDetails GetExistingOrder(int orderId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = (from data in context.Orders
+                              where data.OrderID == orderId
+                              select new CustomerOrderWithDetails
+                              {
+                                  OrderId = data.OrderID,
+                                  Employee = data.Employee.FirstName + " " + data.Employee.LastName,
+                                  OrderDate = data.OrderDate,
+                                  RequiredDate = data.RequiredDate,
+                                  ShippedDate = data.ShippedDate,
+                                  Freight = data.Freight,
+                                  Shipper = data.Shipper.CompanyName,
+                                  OrderTotal = data.OrderDetails.Sum(x => x.Quantity * x.UnitPrice),
+                                  Details = from item in data.OrderDetails
+                                            select new CustomerOrderItem
+                                            {
+                                                OrderId = item.OrderID,
+                                                ProductId = item.ProductID,
+                                                ProductName = item.Product.ProductName,
+                                                UnitPrice = item.UnitPrice,
+                                                Quantity = item.Quantity,
+                                                DiscountPercent = item.Discount,
+                                                InStockQuantity = item.Product.UnitsInStock,
+                                                QuantityPerUnit = item.Product.QuantityPerUnit
+                                            }
+                              }).Single();
+                return result;
             }
         }
         #endregion
