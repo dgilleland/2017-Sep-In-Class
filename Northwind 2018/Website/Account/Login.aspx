@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="Log in" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" Async="true" %>
 
 <%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
+<%@ Register Src="~/UserControls/SecurityConfigurations.ascx" TagPrefix="uc" TagName="SecurityConfigurations" %>
+
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2><%: Title %>.</h2>
@@ -50,6 +52,8 @@
                     if you don't have a local account.
                 </p>
             </section>
+            <hr />
+            <uc:SecurityConfigurations runat="server" ID="SecurityConfigurations" />
         </div>
 
         <div class="col-md-4">
