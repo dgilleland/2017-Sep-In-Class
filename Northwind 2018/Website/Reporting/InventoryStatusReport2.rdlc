@@ -463,7 +463,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>="# of Products = " &amp; Count(Fields!Product.Value)</Value>
                               <Style>
                                 <FontFamily>Times New Roman</FontFamily>
                                 <FontSize>11pt</FontSize>
