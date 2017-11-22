@@ -13,7 +13,27 @@ namespace MarkCalculator
             // Purpose - to model the idea of a course that has a number
             //           of weighted items that are evaluated as a group
 
-            SandBox();
+            //SandBox();
+            Console.WriteLine($"I am about to call the method {nameof(TheSecondSandbox)}");
+            TheSecondSandbox();
+        }
+
+        private static void TheSecondSandbox()
+        {
+            // Quickly demo the EvaluationGroup class.
+            EvaluationGroup quizzes = new EvaluationGroup("Quizzes", true);
+            WeightedMark something;
+            something = new WeightedMark("Quiz 1", 5);
+            quizzes.Items.Add(something);
+            something = new WeightedMark("Quiz 2", 10);
+            quizzes.Items.Add(something);
+            Console.WriteLine($"So far, there are {quizzes.Items.Count} {quizzes.GroupName} that have a total weight of {quizzes.TotalWeight}%");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            quizzes.Items.Add(new WeightedMark("Quiz 3", 5));
+            Console.WriteLine($"So far, there are {quizzes.Items.Count} {quizzes.GroupName} that have a total weight of {quizzes.TotalWeight}%");
+            foreach (var item in quizzes.Items)
+                Console.WriteLine($"\t{item.Name} is {item.Weight} %");
         }
 
         static void SandBox()

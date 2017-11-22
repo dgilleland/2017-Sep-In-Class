@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkCalculator", "MarkCalculator\MarkCalculator.csproj", "{01521E05-34B0-4611-B882-8A60C01B0B3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "MarkCalculator\Demo.csproj", "{01521E05-34B0-4611-B882-8A60C01B0B3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
