@@ -10,7 +10,9 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            Sandbox();
+            var app = new Driver();
+            app.Run();
+            //Sandbox();
         }
 
         static void Sandbox() // TODO: Throw away when all done
@@ -25,12 +27,7 @@ namespace Demo
 
                 Console.WriteLine($"There are {quizzes.Items.Count} quizzes that total a weight of {quizzes.TotalWeight}");
 
-                //WeightedMark hackersMark;
-                //Console.Write("Enter a quiz name: ");
-                //string name = Console.ReadLine();
-                //Console.Write("Enter a weight for the quiz: ");
-                //double weight = double.Parse(Console.ReadLine());
-                //hackersMark = new WeightedMark(name, weight);
+                EnterEarnedMarks(quizzes);
             }
             catch(ArgumentNullException ex) // More "specific"
             {
@@ -50,6 +47,22 @@ namespace Demo
             finally
             {
                 Console.ResetColor();
+            }
+        }
+
+        public static void EnterEarnedMarks(EvaluationGroup evalGroup)
+        {
+            foreach(WeightedMark item in evalGroup.Items)
+            {
+                Console.Write($"Enter a mark for {item.Name} (up to {item.Weight}) or blank to exit: ");
+                double earned;
+                if (double.TryParse(Console.ReadLine(), out earned))
+                    item.EarnedMark = earned;
+            }
+            // show the marks
+            foreach(var item in evalGroup.Items)
+            {
+                Console.WriteLine($"{item.Name}: {item.EarnedMark}/{item.Weight}");
             }
         }
     }

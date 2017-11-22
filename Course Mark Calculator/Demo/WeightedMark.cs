@@ -10,6 +10,20 @@ namespace Demo
     {
         public string Name { get; private set; }
         public double Weight { get; private set; }
+        // adding a ? to a value type allows it to store a null value
+        public double? _EarnedMark; // a field as the "backing store"
+        public double? EarnedMark // Explicitly implment the get/set
+        {
+            get { return _EarnedMark; }
+            set
+            {
+                // The number being assigned is in a keyword called value
+                if (value < 0 || value > Weight)
+                    throw new ArgumentException($"Earned marks must be from zero to {Weight}");
+                _EarnedMark = value;
+            }
+        }
+
         public WeightedMark(string name, double weight)
         {
             // Validate the info coming in
