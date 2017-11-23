@@ -70,6 +70,7 @@
     <Compile Include="Entities\POCOs\InventoryStatus.cs" />
     <Compile Include="Entities\POCOs\KeyValueOption.cs" />
     <Compile Include="Entities\POCOs\ProductInfo.cs" />
+    <Compile Include="Entities\POCOs\ProductItem.cs" />
     <Compile Include="Entities\POCOs\RegionalManager.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Region.cs" />

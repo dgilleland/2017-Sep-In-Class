@@ -15,18 +15,20 @@ namespace NorthwindTraders.BLL
     {
         #region Methods for DataBound Controls
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<KeyValueOption> ListCustomerNames()
+        public List<KeyValueOption> ListCustomerNames(bool listAll)
         {
             using (var context = new NorthwindContext())
             {
-                var names = from data in context.Customers
+                var names = (from data in context.Customers
+                            where data.Orders.Any(x=>x.ShippedDate.HasValue == listAll)
                             orderby data.CompanyName
                             select new KeyValueOption
                             {
                                 Key = data.CustomerID.ToString(),
                                 Text = data.CompanyName
-                            };
-                return names.ToList();
+                            }).ToList();
+                names.Insert(0, new KeyValueOption { Key = null, Text = "[select a customer]" });
+                return names;
             }
         }
 
@@ -110,6 +112,24 @@ namespace NorthwindTraders.BLL
                     Phone = customer.Phone,
                     Fax = customer.Fax
                 };
+            }
+        }
+
+        public ProductItem GetProduct(int productId)
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result = from item in context.Products
+                             where item.ProductID == productId
+                             select new ProductItem
+                             {
+                                 ProductId = item.ProductID,
+                                 ProductName = item.ProductName,
+                                 InStockQuantity = item.UnitsInStock,
+                                 QuantityPerUnit = item.QuantityPerUnit,
+                                 UnitPrice = item.UnitPrice.Value // sure hope we don't have items without prices....
+                             };
+                return result.Single();
             }
         }
 

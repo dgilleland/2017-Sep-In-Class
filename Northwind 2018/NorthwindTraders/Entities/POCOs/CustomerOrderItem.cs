@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace NorthwindTraders.Entities.POCOs
 {
-    public class CustomerOrderItem
+    public class CustomerOrderItem : ProductItem
     {
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public string QuantityPerUnit { get; set; }
-        public decimal UnitPrice { get; set; }
         public short Quantity { get; set; }
         public float DiscountPercent { get; set; }
-        public short? InStockQuantity { get; set; }
     }
 }
