@@ -60,5 +60,49 @@ namespace NorthwindTraders.BLL
                 return results.ToList();
             }
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<KeyValueOption> ListSuppliers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result =
+                    context
+                    .Suppliers
+                    .Select(x => 
+                            new KeyValueOption
+                            {
+                                Key = x.SupplierID.ToString(),
+                                Text = x.CompanyName
+                            });
+                return result.ToList();
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<InventoryStatus> GetInventoryStatusBySupplier(int supplierId)
+        {
+            const int ALL_SUPPLIERS = 0;
+            using (var context = new NorthwindContext())
+            {
+                var results = from data in context.Products
+                              where !data.Discontinued
+                              && (supplierId == ALL_SUPPLIERS
+                                  || (data.SupplierID.HasValue && data.SupplierID.Value == supplierId)
+                                 )
+                              select new InventoryStatus
+                              {
+                                  Supplier = data.Supplier.CompanyName,
+                                  Category = data.Category.CategoryName,
+                                  Product = data.ProductName,
+                                  UnitPrice = data.UnitPrice,
+                                  InStockQuantity = data.UnitsInStock,
+                                  QuantityPerUnit = data.QuantityPerUnit,
+                                  OnOrderQuantity = data.UnitsOnOrder,
+                                  ReorderLevel = data.ReorderLevel
+                              };
+                return results.ToList();
+            }
+        }
     }
 }
