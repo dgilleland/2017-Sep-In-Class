@@ -54,6 +54,12 @@
                         <li><a runat="server" href="~/Sales/CustomerOrderForm.aspx">Sales</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Reporting/InventoryStatusReport.aspx">Inventory Status Report</a></li>
+                                <li><a runat="server" href="~/Reporting/InventoryStatusBySupplierReport.aspx">Inventory Status Report by Supplier</a></li>
+                            </ul>
+                        </li>
                         <li ID="Menu_UsersAndRoles" runat="server"><a runat="server" id="MenuSecurityAdmin" href="~/Admin/Security/Default.aspx">Users and Roles</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
