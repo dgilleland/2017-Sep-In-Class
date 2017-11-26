@@ -81,8 +81,7 @@
             <asp:ListView ID="OrderItemsListView" runat="server"
                  ItemType="NorthwindTraders.Entities.POCOs.CustomerOrderItem"
                  InsertItemPosition="FirstItem"
-                 OnItemCommand="OrderItemsListView_ItemCommand"
-                 OnItemInserting="OrderItemsListView_ItemInserting">
+                 OnItemCommand="OrderItemsListView_ItemCommand">
                 <LayoutTemplate>
                     <table class="table table-hover table-condensed table-bordered">
                         <tr runat="server" id="itemPlaceholder"></tr>
@@ -132,14 +131,14 @@
                 </InsertItemTemplate>
                 <ItemTemplate>
                     <tr>
-                        <td><%# Item.ProductName %></td>
-                        <td><%# Item.InStockQuantity %></td>
-                        <td><%# Item.QuantityPerUnit %></td>
-                        <td><%# Item.Quantity %></td>
-                        <td><%# Item.UnitPrice %></td>
-                        <td></td>
-                        <td><%# Item.DiscountPercent %></td>
-                        <td></td>
+                        <td><asp:Label id="ProductNameLabel" runat="server" Text="<%# Item.ProductName %>" /></td>
+                        <td><asp:Label id="InStockQuantityLabel" runat="server" Text="<%# Item.InStockQuantity %>" /></td>
+                        <td><asp:Label id="QuantityPerUnitLabel" runat="server" Text="<%# Item.QuantityPerUnit %>" /></td>
+                        <td><asp:TextBox id="QuantityTextBox" runat="server" Text="<%# Item.Quantity %>" /></td>
+                        <td>$ <asp:TextBox id="UnitPriceTextBox" runat="server" Text="<%# Item.UnitPrice %>" /></td>
+                        <td><asp:Label id="Label4" runat="server" Text='<%# (Item.Quantity * Item.UnitPrice).ToString("C") %>' /></td>
+                        <td><asp:TextBox id="DiscountPercentTextBox" runat="server" Text="<%# Item.DiscountPercent %>" /> %</td>
+                        <td><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent) / 100M)).ToString("C") %>' /></td>
                         <td></td>
                     </tr>
                 </ItemTemplate>

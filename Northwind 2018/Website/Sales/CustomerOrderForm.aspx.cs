@@ -58,6 +58,7 @@ public partial class Sales_CustomerOrderForm : Page
     #endregion
 
     #region Order Creation/Selection
+    #region Event Handlers for Form Controls
     protected void NewOrder_Click(object sender, EventArgs e)
     {
         // Hide the history GridView
@@ -65,18 +66,7 @@ public partial class Sales_CustomerOrderForm : Page
 
         // prepare the OrderItemsListView for bulk editing
         var orderItems = new List<CustomerOrderItem>();
-        OrderItemsListView.DataSource = orderItems;
-        OrderItemsListView.DataBind();
-
-        var controller = new SalesController();
-        var products = controller.GetProducts();
-        var dropDown = OrderItemsListView.InsertItem.FindControl("AvailableProducts") as DropDownList;
-        dropDown.DataSource = products;
-        dropDown.DataTextField = "Text";
-        dropDown.DataValueField = "Key";
-        dropDown.DataBind();
-        dropDown.Items.Insert(0, "[select a product]");
-        ResetInsertItemValues(dropDown, 0, 0, 0);
+        SetupOrderForEditing(orderItems);
     }
 
     protected void CustomerOrderHistoryGridView_SelectedIndexChanged(object sender, EventArgs e)
@@ -89,25 +79,82 @@ public partial class Sales_CustomerOrderForm : Page
         // else
         //    enable the NewOrder button
     }
+    #endregion
 
-    protected void AvailableProducts_SelectedIndexChanged(object sender, EventArgs e)
+    #region "Helper" methods
+    private void SetupOrderForEditing(IList<CustomerOrderItem> orderItems)
     {
-        DropDownList dropDown = (DropDownList)sender;
-        // container is current row of Listview,
-        // which holds the dropdownlist that caused postback 
-        if (dropDown.SelectedIndex > 0)
-        {
-            var controller = new SalesController();
-            var product = controller.GetProduct(int.Parse(dropDown.SelectedValue));
-            ResetInsertItemValues(dropDown, 1, product.UnitPrice, 0);
-        }
-        else
-        {
-            ResetInsertItemValues(dropDown, 0, 0, 0);
-        }
+        OrderItemsListView.DataSource = orderItems;
+        OrderItemsListView.DataBind();
+
+        var controller = new SalesController();
+        var products = controller.GetProducts();
+        var dropDown = OrderItemsListView.InsertItem.FindControl("AvailableProducts") as DropDownList;
+        dropDown.DataSource = FilteredProductList(orderItems);
+        dropDown.DataTextField = "Text";
+        dropDown.DataValueField = "Key";
+        dropDown.DataBind();
+        dropDown.Items.Insert(0, "[select a product]");
+        ResetInsertItemDefaultValues(dropDown, 0, 0, 0);
     }
 
-    private void ResetInsertItemValues(DropDownList dropDown, int qty, decimal price, float discount)
+    private IList<KeyValueOption> FilteredProductList(IList<CustomerOrderItem> currentItems)
+    {
+        var controller = new SalesController();
+        var products = controller.GetProducts();
+        products.RemoveAll(k => 
+                           currentItems.Any(ci => 
+                                            k.Key == ci.ProductId.ToString()));
+        return products;
+    }
+
+    private IList<CustomerOrderItem> ExtractFromOrderItemsListViewItems()
+    {
+        var dataInForm = new List<CustomerOrderItem>();
+
+        foreach(ListViewDataItem item in OrderItemsListView.Items)
+        {
+            dataInForm.Add(FromDataItem(item));
+        }
+
+        return dataInForm;
+    }
+
+    private CustomerOrderItem FromDataItem(ListViewDataItem item)
+    {
+        var nameLabel = item.FindControl("ProductNameLabel") as Label;
+        var inStockLabel = item.FindControl("InStockQuantityLabel") as Label;
+        var qtyPerUnitLabel = item.FindControl("QuantityPerUnitLabel") as Label;
+        var qtyTextBox = item.FindControl("QuantityTextBox") as TextBox;
+        var priceTextBox = item.FindControl("UnitPriceTextBox") as TextBox;
+        var discountTextBox = item.FindControl("DiscountPercentTextBox") as TextBox;
+        var result = new CustomerOrderItem
+        {
+            ProductName = nameLabel.Text,
+            InStockQuantity = short.Parse(inStockLabel.Text),
+            QuantityPerUnit = qtyPerUnitLabel.Text,
+            Quantity = short.Parse(qtyTextBox.Text),
+            UnitPrice = decimal.Parse(priceTextBox.Text),
+            DiscountPercent = float.Parse(discountTextBox.Text)
+        };
+        return result;
+    }
+
+    /// <summary>
+    /// Resets the Quantity, Price, and Discount for new products.
+    /// </summary>
+    /// <param name="dropDown"></param>
+    /// <param name="qty"></param>
+    /// <param name="price"></param>
+    /// <param name="discount"></param>
+    /// <remarks>
+    /// <para>
+    /// Note that this method has been specially crafted to work with the <see cref="OrderItemsListView"/> ListView control on this form.
+    /// <para>
+    /// This method works by first finding the "parent" object that contains the DropDownList (which, in our case, is the InsertItemTemplate of the <see cref="OrderItemsListView"/> ListView control), and then looks for specifically named TextBox controls so that it can set their .Text values to the supplied qty, price, and discount.
+    /// </para>
+    /// </remarks>
+    private void ResetInsertItemDefaultValues(DropDownList dropDown, int qty, decimal price, float discount)
     {
         ListViewItem container = (ListViewItem)dropDown.NamingContainer;
         var newItemQty = container.FindControl("NewItemQuantity") as TextBox;
@@ -117,7 +164,28 @@ public partial class Sales_CustomerOrderForm : Page
         newItemPrice.Text = price.ToString("C");
         newItemQty.Text = qty.ToString();
     }
+    #endregion
+    #endregion
 
+    #region Order Editing
+    #region Event Handlers
+    protected void AvailableProducts_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DropDownList dropDown = (DropDownList)sender;
+        // container is current row of Listview,
+        // which holds the dropdownlist that caused postback 
+        if (dropDown.SelectedIndex > 0)
+        {
+            var controller = new SalesController();
+            var product = controller.GetProduct(int.Parse(dropDown.SelectedValue));
+            ResetInsertItemDefaultValues(dropDown, 1, product.UnitPrice, 0);
+        }
+        else
+        {
+            ResetInsertItemDefaultValues(dropDown, 0, 0, 0);
+        }
+    }
+    
     protected void OrderItemsListView_ItemCommand(object sender, ListViewCommandEventArgs e)
     {
         switch (e.CommandName)
@@ -132,7 +200,15 @@ public partial class Sales_CustomerOrderForm : Page
 
                 break;
         }
+        e.Handled = true;
     }
+
+    //protected void OrderItemsListView_ItemInserting(object sender, ListViewInsertEventArgs e)
+    //{
+    //}
+    #endregion
+
+    #region Helper Methods
     private void InsertOrderItem()
     {
         var container = OrderItemsListView.InsertItem;
@@ -149,34 +225,23 @@ public partial class Sales_CustomerOrderForm : Page
             var theDiscount = container.FindControl("NewItemDiscount") as TextBox;
 
             // Place them inside of hidden fields
-            var newId = container.FindControl("ProductId") as HiddenField;
-            newId.Value = product.ProductId.ToString();
-            var newName = container.FindControl("ProductName") as HiddenField;
-            newName.Value = product.ProductName;
-            var newInStock = container.FindControl("InStockQuantity") as HiddenField;
-            newInStock.Value = product.InStockQuantity.ToString();
-            var newQtyPerUnit = container.FindControl("QuantityPerUnit") as HiddenField;
-            newQtyPerUnit.Value = product.QuantityPerUnit;
-
-            var newDiscount = container.FindControl("DiscountPercent") as HiddenField;
-            newDiscount.Value = theDiscount.Text;
-            var newQuantity = container.FindControl("Quantity") as HiddenField;
-            newQuantity.Value = theQty.Text;
-            var newPrice = container.FindControl("UnitPrice") as HiddenField;
-            newPrice.Value = decimal.Parse(thePrice.Text, System.Globalization.NumberStyles.Currency).ToString();
+            var newItem = new CustomerOrderItem
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                InStockQuantity = product.InStockQuantity,
+                QuantityPerUnit = product.QuantityPerUnit,
+                Quantity = short.Parse(theQty.Text),
+                UnitPrice = decimal.Parse(thePrice.Text, System.Globalization.NumberStyles.Currency),
+                DiscountPercent = float.Parse(theDiscount.Text)
+            };
 
             // Insert the item
-            OrderItemsListView.InsertNewItem(false);
-
-            // Reset the edit order's Add data
-            dropDown.SelectedIndex = 0;
-            //ResetInsertItemValues(dropDown, 0, 0, 0);
+            var existing = ExtractFromOrderItemsListViewItems();
+            existing.Add(newItem);
+            SetupOrderForEditing(existing);
         }
     }
     #endregion
-
-    protected void OrderItemsListView_ItemInserting(object sender, ListViewInsertEventArgs e)
-    {
-
-    }
+    #endregion
 }
