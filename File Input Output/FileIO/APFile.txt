@@ -1,0 +1,13 @@
+﻿Mary,F,7065
+Anna,F,2604
+Emma,F,2003
+Elizabeth,F,1939
+Minnie,F,1746
+Margaret,F,1578
+Ida,F,1472
+Alice,F,1414
+Bertha,F,1320
+Sarah,F,1288
+Annie,F,1258
+Clara,F,1226
+Ella,F,1156
