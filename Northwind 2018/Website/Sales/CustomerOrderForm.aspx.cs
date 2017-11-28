@@ -3,6 +3,7 @@ using NorthwindTraders.Entities.DTOs;
 using NorthwindTraders.Entities.POCOs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -113,7 +114,10 @@ public partial class Sales_CustomerOrderForm : Page
         // Calculate the Total
         decimal total = 0;
         foreach (var item in orderItems)
-            total += (item.Quantity * item.UnitPrice) - (item.Quantity * item.UnitPrice) * (Convert.ToDecimal(item.DiscountPercent) / 100M);
+            total += (item.Quantity * item.UnitPrice) - (item.Quantity * item.UnitPrice) * (Convert.ToDecimal(item.DiscountPercent));
+        decimal freight;
+        decimal.TryParse(EditFreight.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out freight);
+        total += freight;
         OrderTotal.Text = total.ToString("C");
 
         // Setup the ListView's Products (InsertTemplate)

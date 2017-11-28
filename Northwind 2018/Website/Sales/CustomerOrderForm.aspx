@@ -85,18 +85,18 @@
                     <th>Shipper</th>
                     <th>Freight</th>
                     <th>Shipped On</th>
-                    <th>Order Total</th>
+                    <th>Total</th>
                 </tr>
                 <tr>
-                    <td><asp:TextBox ID="EditOrderDate" runat="server" TextMode="Date" /></td>
-                    <td><asp:TextBox ID="EditRequiredDate" runat="server" TextMode="Date" /></td>
+                    <td><asp:TextBox ID="EditOrderDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
+                    <td><asp:TextBox ID="EditRequiredDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
                     <td>
-                        <asp:DropDownList ID="EditShipper" runat="server" AppendDataBoundItems="true" DataSourceID="ShipperDataSource" DataTextField="Text" DataValueField="Key">
+                        <asp:DropDownList ID="EditShipper" runat="server" AppendDataBoundItems="true" DataSourceID="ShipperDataSource" DataTextField="Text" DataValueField="Key" CssClass="form-control">
                             <asp:ListItem>[Select Shipper]</asp:ListItem>
                         </asp:DropDownList><asp:ObjectDataSource runat="server" ID="ShipperDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="GetShippers" TypeName="NorthwindTraders.BLL.SalesController"></asp:ObjectDataSource>
                     </td>
-                    <td><asp:TextBox ID="EditFreight" runat="server" /></td>
-                    <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" /></td>
+                    <td><asp:TextBox ID="EditFreight" runat="server" CssClass="form-control" /></td>
+                    <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
                     <td><asp:Label ID="OrderTotal" runat="server" /></td>
                 </tr>
             </table>
@@ -153,7 +153,7 @@
                         <td><asp:TextBox id="UnitPriceTextBox" runat="server" Text='<%# Item.UnitPrice.ToString("C") %>' CssClass="form-control" /></td>
                         <td class="text-right"><asp:Label id="Label4" runat="server" Text='<%# (Item.Quantity * Item.UnitPrice).ToString("C") %>' /></td>
                         <td><asp:TextBox id="DiscountPercentTextBox" runat="server" Text='<%# Item.DiscountPercent.ToString("P") %>' CssClass="form-control" /></td>
-                        <td class="text-right"><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent) / 100M)).ToString("C") %>' /></td>
+                        <td class="text-right"><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent))).ToString("C") %>' /></td>
                         <td></td>
                     </tr>
                 </ItemTemplate>
