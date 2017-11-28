@@ -40,7 +40,7 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "articles/images/**"
         ],
         "exclude": [
           "obj/**",
