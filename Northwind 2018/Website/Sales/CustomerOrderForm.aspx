@@ -97,16 +97,24 @@
                     </td>
                     <td><asp:TextBox ID="EditFreight" runat="server" CssClass="form-control" /></td>
                     <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
-                    <td><asp:Label ID="OrderTotal" runat="server" /></td>
+                    <td class="bg-success" style="vertical-align:middle;"><asp:Label ID="OrderTotal" runat="server" CssClass="h4" style="font-weight:bold;" /></td>
                 </tr>
             </table>
             <asp:ListView ID="OrderItemsListView" runat="server"
                  ItemType="NorthwindTraders.Entities.POCOs.CustomerOrderItem"
                  InsertItemPosition="FirstItem"
-                 OnItemCommand="OrderItemsListView_ItemCommand">
+                 OnItemCommand="OrderItemsListView_ItemCommand"
+                 OnLayoutCreated="OrderItemsListView_LayoutCreated">
                 <LayoutTemplate>
                     <table class="table table-hover table-condensed table-bordered">
                         <tr runat="server" id="itemPlaceholder"></tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td class="text-right bg-info h4"><asp:Label ID="TotalExtended" runat="server" /></td>
+                            <td></td>
+                            <td class="text-right bg-success h4"><asp:Label ID="TotalDiscounted" runat="server" /></td>
+                            <td></td>
+                        </tr>
                     </table>
                 </LayoutTemplate>
                 <InsertItemTemplate>
@@ -129,7 +137,7 @@
                             <asp:TextBox ID="NewItemDiscount" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         </td>
                         <td style="vertical-align:bottom;">
-                            <asp:LinkButton ID="AddItem" runat="server" CommandName="Insert" Text="Add" CssClass="btn btn-success"></asp:LinkButton>
+                            <asp:LinkButton ID="AddItem" runat="server" CommandName="Insert" CssClass="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Add</asp:LinkButton>
                         </td>
                     </tr>
                     <tr runat="server" style="">
@@ -144,7 +152,9 @@
                 </InsertItemTemplate>
                 <ItemTemplate>
                     <tr>
-                        <td><asp:Label id="ProductNameLabel" runat="server" Text="<%# Item.ProductName %>" />
+                        <td>
+                            <asp:HiddenField ID="ProductId" runat="server" Value="<%# Item.ProductId %>" />
+                            <asp:Label id="ProductNameLabel" runat="server" Text="<%# Item.ProductName %>" ToolTip='<%# $"Product ID: {Item.ProductId}" %>' />
                             <br />
                             <asp:Label id="InStockQuantityLabel" runat="server" Text="<%# Item.InStockQuantity %>" CssClass="badge" />
                             &hArr;
@@ -154,7 +164,10 @@
                         <td class="text-right"><asp:Label id="Label4" runat="server" Text='<%# (Item.Quantity * Item.UnitPrice).ToString("C") %>' /></td>
                         <td><asp:TextBox id="DiscountPercentTextBox" runat="server" Text='<%# Item.DiscountPercent.ToString("P") %>' CssClass="form-control" /></td>
                         <td class="text-right"><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent))).ToString("C") %>' /></td>
-                        <td></td>
+                        <td style="vertical-align:top; white-space: nowrap;">
+                            <asp:LinkButton ID="Refresh" runat="server" CommandName="Refresh" CssClass="btn btn-info" ToolTip="Update Totals"><i class="glyphicon glyphicon-refresh"></i></asp:LinkButton>
+                            <asp:LinkButton ID="Remove" runat="server" CommandName="Delete" CssClass="btn btn-danger" ToolTip="Remove Item"><i class="glyphicon glyphicon-remove"></i></asp:LinkButton>
+                        </td>
                     </tr>
                 </ItemTemplate>
             </asp:ListView>

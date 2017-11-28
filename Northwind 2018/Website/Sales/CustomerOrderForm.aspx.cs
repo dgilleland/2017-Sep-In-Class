@@ -111,14 +111,21 @@ public partial class Sales_CustomerOrderForm : Page
         OrderItemsListView.DataSource = orderItems;
         OrderItemsListView.DataBind();
 
-        // Calculate the Total
+        // Calculate the Totals
         decimal total = 0;
+        decimal totalRaw = 0;
         foreach (var item in orderItems)
+        {
+            totalRaw += (item.Quantity * item.UnitPrice);
             total += (item.Quantity * item.UnitPrice) - (item.Quantity * item.UnitPrice) * (Convert.ToDecimal(item.DiscountPercent));
+        }
         decimal freight;
         decimal.TryParse(EditFreight.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out freight);
-        total += freight;
-        OrderTotal.Text = total.ToString("C");
+        decimal totalWithFreight = total + freight;
+        // Display the totals
+        OrderTotal.Text = totalWithFreight.ToString("C");
+        TotalExtendedLabel.Text = totalRaw.ToString("C");
+        TotalDiscountedLabel.Text = total.ToString("C");
 
         // Setup the ListView's Products (InsertTemplate)
         var controller = new SalesController();
@@ -156,6 +163,7 @@ public partial class Sales_CustomerOrderForm : Page
 
     private CustomerOrderItem FromDataItem(ListViewDataItem item)
     {
+        var productIdControl = item.FindControl("ProductId") as HiddenField;
         var nameLabel = item.FindControl("ProductNameLabel") as Label;
         var inStockLabel = item.FindControl("InStockQuantityLabel") as Label;
         var qtyPerUnitLabel = item.FindControl("QuantityPerUnitLabel") as Label;
@@ -164,6 +172,7 @@ public partial class Sales_CustomerOrderForm : Page
         var discountTextBox = item.FindControl("DiscountPercentTextBox") as TextBox;
         var result = new CustomerOrderItem
         {
+            ProductId = int.Parse(productIdControl.Value),
             ProductName = nameLabel.Text,
             InStockQuantity = short.Parse(inStockLabel.Text),
             QuantityPerUnit = qtyPerUnitLabel.Text,
@@ -230,7 +239,7 @@ public partial class Sales_CustomerOrderForm : Page
             case "Delete":
 
                 break;
-            case "Update":
+            case "Refresh":
 
                 break;
         }
@@ -278,4 +287,13 @@ public partial class Sales_CustomerOrderForm : Page
     }
     #endregion
     #endregion
+
+    protected Label TotalExtendedLabel { get; set; }
+    protected Label TotalDiscountedLabel { get; set; }
+
+    protected void OrderItemsListView_LayoutCreated(object sender, EventArgs e)
+    {
+        TotalExtendedLabel = OrderItemsListView.FindControl("TotalExtended") as Label;
+        TotalDiscountedLabel = OrderItemsListView.FindControl("TotalDiscounted") as Label;
+    }
 }
