@@ -26,6 +26,7 @@ public partial class Sales_CustomerOrderForm : Page
     {
         // Not active - select a new customer
         SelectCustomer.Visible =
+        AllCustomersCheckBox.Enabled =
         CustomerDropDown.Enabled =
             !isActive;
         // Active - work with selected customer
