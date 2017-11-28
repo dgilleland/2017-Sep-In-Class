@@ -95,6 +95,23 @@ namespace NorthwindTraders.BLL
                 return result;
             }
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<KeyValueOption> GetShippers()
+        {
+            using (var context = new NorthwindContext())
+            {
+                var result =
+                    context
+                    .Shippers
+                    .Select(x => new KeyValueOption
+                    {
+                        Key = x.ShipperID.ToString(),
+                        Text = x.CompanyName
+                    });
+                return result.ToList();
+            }
+        }
         #endregion
 
         #region Methods for Manual UI Processing

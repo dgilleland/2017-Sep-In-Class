@@ -1,4 +1,5 @@
 ﻿using NorthwindTraders.BLL;
+using NorthwindTraders.Entities.DTOs;
 using NorthwindTraders.Entities.POCOs;
 using System;
 using System.Collections.Generic;
@@ -72,21 +73,50 @@ public partial class Sales_CustomerOrderForm : Page
     protected void CustomerOrderHistoryGridView_SelectedIndexChanged(object sender, EventArgs e)
     {
         // if selected
-        //    disable the NewOrder button
-        //    prepare the OrderItemsListView
-        //    if order is shipped
-        //        disable the OrderItemsListView
+        if (CustomerOrderHistoryGridView.SelectedIndex >= 0)
+        {
+            //    disable the NewOrder button
+            //    prepare the OrderItemsListView
+            int orderId = int.Parse(CustomerOrderHistoryGridView.SelectedValue.ToString());
+            var controller = new SalesController();
+            var order = controller.GetExistingOrder(orderId);
+
+            SetupOrderDates(order);
+            SetupOrderForEditing(order.Details.ToList());
+            //    if order is shipped
+            //        disable the OrderItemsListView
+        }
         // else
         //    enable the NewOrder button
     }
     #endregion
 
     #region "Helper" methods
+    private void SetupOrderDates(CustomerOrderWithDetails order)
+    {
+        if (order.OrderDate.HasValue)
+            EditOrderDate.Text = order.OrderDate.Value.ToString("yyyy-MM-dd");
+        if (order.RequiredDate.HasValue)
+            EditRequiredDate.Text = order.RequiredDate.Value.ToString("yyyy-MM-dd");
+        if (order.ShippedDate.HasValue)
+            EditShippedOnDate.Text = order.ShippedDate.Value.ToString("yyyy-MM-dd");
+        if (order.Freight.HasValue)
+            EditFreight.Text = order.Freight.Value.ToString("C");
+    }
+
     private void SetupOrderForEditing(IList<CustomerOrderItem> orderItems)
     {
+        // Bind the ListView
         OrderItemsListView.DataSource = orderItems;
         OrderItemsListView.DataBind();
 
+        // Calculate the Total
+        decimal total = 0;
+        foreach (var item in orderItems)
+            total += (item.Quantity * item.UnitPrice) - (item.Quantity * item.UnitPrice) * (Convert.ToDecimal(item.DiscountPercent) / 100M);
+        OrderTotal.Text = total.ToString("C");
+
+        // Setup the ListView's Products (InsertTemplate)
         var controller = new SalesController();
         var products = controller.GetProducts();
         var dropDown = OrderItemsListView.InsertItem.FindControl("AvailableProducts") as DropDownList;
@@ -134,8 +164,8 @@ public partial class Sales_CustomerOrderForm : Page
             InStockQuantity = short.Parse(inStockLabel.Text),
             QuantityPerUnit = qtyPerUnitLabel.Text,
             Quantity = short.Parse(qtyTextBox.Text),
-            UnitPrice = decimal.Parse(priceTextBox.Text),
-            DiscountPercent = float.Parse(discountTextBox.Text)
+            UnitPrice = decimal.Parse(priceTextBox.Text, System.Globalization.NumberStyles.Currency),
+            DiscountPercent = float.Parse(discountTextBox.Text.Replace("%", ""))/100
         };
         return result;
     }
@@ -233,7 +263,7 @@ public partial class Sales_CustomerOrderForm : Page
                 QuantityPerUnit = product.QuantityPerUnit,
                 Quantity = short.Parse(theQty.Text),
                 UnitPrice = decimal.Parse(thePrice.Text, System.Globalization.NumberStyles.Currency),
-                DiscountPercent = float.Parse(theDiscount.Text)
+                DiscountPercent = float.Parse(theDiscount.Text)/100
             };
 
             // Insert the item

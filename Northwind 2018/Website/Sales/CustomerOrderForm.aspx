@@ -78,6 +78,28 @@
     <asp:Panel ID="CustomerOrderEditingPanel" runat="server" CssClass="row">
         <div class="col-md-12">
             <h3>Edit Order</h3>
+            <table class="table table-condensed">
+                <tr>
+                    <th>Order Date</th>
+                    <th>Required By</th>
+                    <th>Shipper</th>
+                    <th>Freight</th>
+                    <th>Shipped On</th>
+                    <th>Order Total</th>
+                </tr>
+                <tr>
+                    <td><asp:TextBox ID="EditOrderDate" runat="server" TextMode="Date" /></td>
+                    <td><asp:TextBox ID="EditRequiredDate" runat="server" TextMode="Date" /></td>
+                    <td>
+                        <asp:DropDownList ID="EditShipper" runat="server" AppendDataBoundItems="true" DataSourceID="ShipperDataSource" DataTextField="Text" DataValueField="Key">
+                            <asp:ListItem>[Select Shipper]</asp:ListItem>
+                        </asp:DropDownList><asp:ObjectDataSource runat="server" ID="ShipperDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="GetShippers" TypeName="NorthwindTraders.BLL.SalesController"></asp:ObjectDataSource>
+                    </td>
+                    <td><asp:TextBox ID="EditFreight" runat="server" /></td>
+                    <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" /></td>
+                    <td><asp:Label ID="OrderTotal" runat="server" /></td>
+                </tr>
+            </table>
             <asp:ListView ID="OrderItemsListView" runat="server"
                  ItemType="NorthwindTraders.Entities.POCOs.CustomerOrderItem"
                  InsertItemPosition="FirstItem"
@@ -89,17 +111,10 @@
                 </LayoutTemplate>
                 <InsertItemTemplate>
                     <tr class="success">
-                        <td colspan="3">
+                        <td colspan="1">
                             <asp:Label ID="ProductsLabel" runat="server" AssociatedControlID="AvailableProducts" Text="Add Product:"></asp:Label>
                             <asp:DropDownList ID="AvailableProducts" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="AvailableProducts_SelectedIndexChanged">
                             </asp:DropDownList>
-                            <asp:HiddenField ID="ProductId" runat="server" Value="<%# BindItem.ProductId %>" />
-                            <asp:HiddenField ID="ProductName" runat="server" Value="<%# BindItem.ProductName %>" />
-                            <asp:HiddenField ID="InStockQuantity" runat="server" Value="<%# BindItem.InStockQuantity %>" />
-                            <asp:HiddenField ID="QuantityPerUnit" runat="server" Value="<%# BindItem.QuantityPerUnit %>" />
-                            <asp:HiddenField ID="Quantity" runat="server" Value="<%# BindItem.Quantity %>" />
-                            <asp:HiddenField ID="UnitPrice" runat="server" Value="<%# BindItem.UnitPrice %>" />
-                            <asp:HiddenField ID="DiscountPercent" runat="server" Value="<%# BindItem.DiscountPercent %>" />
                         </td>
                         <td>
                             <asp:Label ID="Label2" runat="server" AssociatedControlID="NewItemQuantity" Text="Quantity"></asp:Label>
@@ -110,17 +125,15 @@
                             <asp:TextBox ID="NewItemPrice" runat="server" CssClass="form-control"></asp:TextBox>
                         </td>
                         <td colspan="2">
-                            <asp:Label ID="DiscountLabel" runat="server" AssociatedControlID="NewItemDiscount" Text="Discount"></asp:Label>
-                            <asp:TextBox ID="NewItemDiscount" runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:Label ID="DiscountLabel" runat="server" AssociatedControlID="NewItemDiscount" Text="Discount (%)"></asp:Label>
+                            <asp:TextBox ID="NewItemDiscount" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         </td>
                         <td style="vertical-align:bottom;">
                             <asp:LinkButton ID="AddItem" runat="server" CommandName="Insert" Text="Add" CssClass="btn btn-success"></asp:LinkButton>
                         </td>
                     </tr>
                     <tr runat="server" style="">
-                        <th runat="server">Product Name</th>
-                        <th runat="server">In Stock</th>
-                        <th runat="server">Qty Per Unit</th>
+                        <th runat="server">Product Name<br />In-Stock &hArr; Qty Per Unit</th>
                         <th runat="server">Order Qty</th>
                         <th runat="server">Unit Price</th>
                         <th runat="server">Extended Price</th>
@@ -131,14 +144,16 @@
                 </InsertItemTemplate>
                 <ItemTemplate>
                     <tr>
-                        <td><asp:Label id="ProductNameLabel" runat="server" Text="<%# Item.ProductName %>" /></td>
-                        <td><asp:Label id="InStockQuantityLabel" runat="server" Text="<%# Item.InStockQuantity %>" /></td>
-                        <td><asp:Label id="QuantityPerUnitLabel" runat="server" Text="<%# Item.QuantityPerUnit %>" /></td>
-                        <td><asp:TextBox id="QuantityTextBox" runat="server" Text="<%# Item.Quantity %>" /></td>
-                        <td>$ <asp:TextBox id="UnitPriceTextBox" runat="server" Text="<%# Item.UnitPrice %>" /></td>
-                        <td><asp:Label id="Label4" runat="server" Text='<%# (Item.Quantity * Item.UnitPrice).ToString("C") %>' /></td>
-                        <td><asp:TextBox id="DiscountPercentTextBox" runat="server" Text="<%# Item.DiscountPercent %>" /> %</td>
-                        <td><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent) / 100M)).ToString("C") %>' /></td>
+                        <td><asp:Label id="ProductNameLabel" runat="server" Text="<%# Item.ProductName %>" />
+                            <br />
+                            <asp:Label id="InStockQuantityLabel" runat="server" Text="<%# Item.InStockQuantity %>" CssClass="badge" />
+                            &hArr;
+                            <asp:Label id="QuantityPerUnitLabel" runat="server" Text="<%# Item.QuantityPerUnit %>" /></td>
+                        <td><asp:TextBox id="QuantityTextBox" runat="server" Text="<%# Item.Quantity %>" CssClass="form-control" /></td>
+                        <td><asp:TextBox id="UnitPriceTextBox" runat="server" Text='<%# Item.UnitPrice.ToString("C") %>' CssClass="form-control" /></td>
+                        <td class="text-right"><asp:Label id="Label4" runat="server" Text='<%# (Item.Quantity * Item.UnitPrice).ToString("C") %>' /></td>
+                        <td><asp:TextBox id="DiscountPercentTextBox" runat="server" Text='<%# Item.DiscountPercent.ToString("P") %>' CssClass="form-control" /></td>
+                        <td class="text-right"><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent) / 100M)).ToString("C") %>' /></td>
                         <td></td>
                     </tr>
                 </ItemTemplate>
