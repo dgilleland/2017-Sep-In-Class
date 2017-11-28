@@ -62,6 +62,10 @@
                         </li>
                         <li ID="Menu_UsersAndRoles" runat="server"><a runat="server" id="MenuSecurityAdmin" href="~/Admin/Security/Default.aspx">Users and Roles</a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a runat="server" href="~/About/index.html" title="DocFx Info"><i class="glyphicon glyphicon-info-sign"></i></a></li>
+                    </ul>
+
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
