@@ -75,9 +75,16 @@
         </div>
     </asp:Panel>
 
-    <asp:Panel ID="CustomerOrderEditingPanel" runat="server" CssClass="row">
+    <asp:Panel ID="CustomerOrderEditingPanel" runat="server" CssClass="row" Visible="false">
         <div class="col-md-12">
-            <h3>Edit Order</h3>
+            <h3>Edit Order:
+                <asp:LinkButton ID="SaveOrder" runat="server" CssClass="btn btn-info btn-sm" OnClick="SaveOrder_Click">
+                    Save
+                    &nbsp;
+                    <asp:Label ID="EditOrderId" runat="server" CssClass="badge" />
+                </asp:LinkButton>
+                <asp:LinkButton ID="PlaceOrder" runat="server" CssClass="btn btn-success btn-sm" OnClick="PlaceOrder_Click">Place Order</asp:LinkButton>
+            </h3>
             <table class="table table-condensed">
                 <tr>
                     <th>Order Date</th>
@@ -88,7 +95,7 @@
                     <th>Total</th>
                 </tr>
                 <tr>
-                    <td><asp:TextBox ID="EditOrderDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
+                    <td><asp:TextBox ID="EditOrderDate" runat="server" TextMode="Date" CssClass="form-control" Enabled="false" /></td>
                     <td><asp:TextBox ID="EditRequiredDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
                     <td>
                         <asp:DropDownList ID="EditShipper" runat="server" AppendDataBoundItems="true" DataSourceID="ShipperDataSource" DataTextField="Text" DataValueField="Key" CssClass="form-control">
@@ -96,7 +103,7 @@
                         </asp:DropDownList><asp:ObjectDataSource runat="server" ID="ShipperDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="GetShippers" TypeName="NorthwindTraders.BLL.SalesController"></asp:ObjectDataSource>
                     </td>
                     <td><asp:TextBox ID="EditFreight" runat="server" CssClass="form-control" /></td>
-                    <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" CssClass="form-control" /></td>
+                    <td><asp:TextBox ID="EditShippedOnDate" runat="server" TextMode="Date" CssClass="form-control" Enabled="false" /></td>
                     <td class="bg-success" style="vertical-align:middle;"><asp:Label ID="OrderTotal" runat="server" CssClass="h4" style="font-weight:bold;" /></td>
                 </tr>
             </table>

@@ -34,6 +34,9 @@ public partial class Sales_CustomerOrderForm : Page
         CustomerInfoPanel.Visible =
         CustomerOrderHistoryPanel.Visible =
             isActive;
+
+        // HACK: force-hide the CustomerOrderEditingPanel, 'cause of where this method is called from....
+        CustomerOrderEditingPanel.Visible = false;
     }
 
     protected void SelectCustomer_Click(object sender, EventArgs e)
@@ -67,8 +70,7 @@ public partial class Sales_CustomerOrderForm : Page
 
 
         // prepare the OrderItemsListView for bulk editing
-        var orderItems = new List<CustomerOrderItem>();
-        SetupOrderForEditing(orderItems);
+        SetupEditOrderForm(new CustomerOrderWithDetails());
     }
 
     protected void CustomerOrderHistoryGridView_SelectedIndexChanged(object sender, EventArgs e)
@@ -82,8 +84,7 @@ public partial class Sales_CustomerOrderForm : Page
             var controller = new SalesController();
             var order = controller.GetExistingOrder(orderId);
 
-            SetupOrderDates(order);
-            SetupOrderForEditing(order.Details.ToList());
+            SetupEditOrderForm(order);
             //    if order is shipped
             //        disable the OrderItemsListView
         }
@@ -93,16 +94,38 @@ public partial class Sales_CustomerOrderForm : Page
     #endregion
 
     #region "Helper" methods
+    private void SetupEditOrderForm(CustomerOrderWithDetails order)
+    {
+        // Toggle panel visibility
+        CustomerOrderHistoryPanel.Visible = false;
+        CustomerOrderEditingPanel.Visible = true;
+
+        // Setup Order Editing
+        CustomerOrderEditingPanel.Enabled = !order.OrderDate.HasValue;
+        SetupOrderDates(order);
+        SetupOrderForEditing(order.Details.ToList());
+    }
+
     private void SetupOrderDates(CustomerOrderWithDetails order)
     {
+        string orderNumber = order.OrderId == 0 ? "New" : order.OrderId.ToString();
+        EditOrderId.Text = $"Order # {orderNumber}";
         if (order.OrderDate.HasValue)
             EditOrderDate.Text = order.OrderDate.Value.ToString("yyyy-MM-dd");
+        else
+            EditOrderDate.Text = "";
         if (order.RequiredDate.HasValue)
             EditRequiredDate.Text = order.RequiredDate.Value.ToString("yyyy-MM-dd");
+        else
+            EditRequiredDate.Text = "";
         if (order.ShippedDate.HasValue)
             EditShippedOnDate.Text = order.ShippedDate.Value.ToString("yyyy-MM-dd");
+        else
+            EditShippedOnDate.Text = "";
         if (order.Freight.HasValue)
             EditFreight.Text = order.Freight.Value.ToString("C");
+        else
+            EditFreight.Text = "";
     }
 
     private void SetupOrderForEditing(IList<CustomerOrderItem> orderItems)
@@ -250,9 +273,29 @@ public partial class Sales_CustomerOrderForm : Page
         e.Handled = true;
     }
 
-    //protected void OrderItemsListView_ItemInserting(object sender, ListViewInsertEventArgs e)
-    //{
-    //}
+
+    protected Label TotalExtendedLabel { get; set; }
+    protected Label TotalDiscountedLabel { get; set; }
+
+    protected void OrderItemsListView_LayoutCreated(object sender, EventArgs e)
+    {
+        TotalExtendedLabel = OrderItemsListView.FindControl("TotalExtended") as Label;
+        TotalDiscountedLabel = OrderItemsListView.FindControl("TotalDiscounted") as Label;
+    }
+
+    protected void SaveOrder_Click(object sender, EventArgs e)
+    {
+        // TODO: Gather the data and save the order
+        // 1) Build the EditCustomerOrder object from the form
+        // 2) Send the object to the SalesController for bulk processing
+    }
+
+    protected void PlaceOrder_Click(object sender, EventArgs e)
+    {
+        // TODO: Gather the data and place the order
+        // 1) Build the EditCustomerOrder object from the form
+        // 2) Send the object to the SalesController for bulk processing
+    }
     #endregion
 
     #region Helper Methods
@@ -291,13 +334,4 @@ public partial class Sales_CustomerOrderForm : Page
     }
     #endregion
     #endregion
-
-    protected Label TotalExtendedLabel { get; set; }
-    protected Label TotalDiscountedLabel { get; set; }
-
-    protected void OrderItemsListView_LayoutCreated(object sender, EventArgs e)
-    {
-        TotalExtendedLabel = OrderItemsListView.FindControl("TotalExtended") as Label;
-        TotalDiscountedLabel = OrderItemsListView.FindControl("TotalDiscounted") as Label;
-    }
 }

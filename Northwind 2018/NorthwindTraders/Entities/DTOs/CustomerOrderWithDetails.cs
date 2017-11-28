@@ -10,5 +10,6 @@ namespace NorthwindTraders.Entities.DTOs
     public class CustomerOrderWithDetails : CustomerOrder
     {
         public IEnumerable<CustomerOrderItem> Details { get; set; }
+            = new List<CustomerOrderItem>();
     }
 }
