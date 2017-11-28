@@ -166,7 +166,7 @@
                         <td class="text-right"><asp:Label id="Label5" runat="server" Text='<%# ((Item.Quantity * Item.UnitPrice) - (Item.Quantity * Item.UnitPrice) * (Convert.ToDecimal(Item.DiscountPercent))).ToString("C") %>' /></td>
                         <td style="vertical-align:top; white-space: nowrap;">
                             <asp:LinkButton ID="Refresh" runat="server" CommandName="Refresh" CssClass="btn btn-info" ToolTip="Update Totals"><i class="glyphicon glyphicon-refresh"></i></asp:LinkButton>
-                            <asp:LinkButton ID="Remove" runat="server" CommandName="Delete" CssClass="btn btn-danger" ToolTip="Remove Item"><i class="glyphicon glyphicon-remove"></i></asp:LinkButton>
+                            <asp:LinkButton ID="Remove" runat="server" CommandName="Delete" CommandArgument="<%# Item.ProductId %>" CssClass="btn btn-danger" ToolTip="Remove Item"><i class="glyphicon glyphicon-remove"></i></asp:LinkButton>
                         </td>
                     </tr>
                 </ItemTemplate>

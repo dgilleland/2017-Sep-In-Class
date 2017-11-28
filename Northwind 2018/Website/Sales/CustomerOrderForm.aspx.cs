@@ -237,10 +237,14 @@ public partial class Sales_CustomerOrderForm : Page
                 InsertOrderItem();
                 break;
             case "Delete":
-
+                int productId = int.Parse(e.CommandArgument.ToString());
+                var items = ExtractFromOrderItemsListViewItems();
+                var toRemove = items.Single(x => x.ProductId == productId);
+                items.Remove(toRemove);
+                SetupOrderForEditing(items);
                 break;
             case "Refresh":
-
+                SetupOrderForEditing(ExtractFromOrderItemsListViewItems());
                 break;
         }
         e.Handled = true;
