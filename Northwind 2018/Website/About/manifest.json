@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/dgilleland/Documents/GitHub/2017-Sep-In-Class/Northwind 2018",
+  "source_base_path": "E:/gh/(dgilleland)/2017-Sep-In-Class/Northwind 2018",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -36,7 +36,7 @@
           "hash": "ZpygbArsyX6US7iP4PJtug=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -97,15 +97,26 @@
       "version": ""
     },
     {
+      "type": "Resource",
+      "source_relative_path": "images/NorthwindLogoLarge.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/NorthwindLogoLarge.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "VBgm7KTajoZHx42O9+5PYQ=="
+          "hash": "pS9Hm+CcLuOdmA37Gnoo/A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -128,11 +139,6 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -140,6 +146,11 @@
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }

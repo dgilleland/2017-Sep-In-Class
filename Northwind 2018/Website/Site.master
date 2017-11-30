@@ -46,7 +46,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/"><i class="glyphicon glyphicon-home"></i> Northwind Traders</a>
+                    <a class="navbar-brand" runat="server" href="~/"><i class="glyphicon glyphicon-home"></i> Northwind Traders <asp:Image ID="Logo" runat="server" ImageUrl="~/Images/NorthwindMenuLogo.gif" Height="20px" style="display:inline-block;" /></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">

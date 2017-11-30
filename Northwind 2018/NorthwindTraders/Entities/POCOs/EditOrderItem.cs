@@ -10,7 +10,7 @@ namespace NorthwindTraders.Entities.POCOs
     {
         public int ProductId { get; set; }
         public decimal UnitPrice { get; set; }
-        public int OrderQuantity { get; set; }
+        public short OrderQuantity { get; set; }
         public float DiscountPercent { get; set; }
     }
 }

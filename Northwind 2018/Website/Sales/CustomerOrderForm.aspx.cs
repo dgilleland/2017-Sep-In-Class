@@ -1,4 +1,5 @@
-﻿using NorthwindTraders.BLL;
+﻿using Microsoft.AspNet.Identity;
+using NorthwindTraders.BLL;
 using NorthwindTraders.Entities.DTOs;
 using NorthwindTraders.Entities.POCOs;
 using System;
@@ -8,11 +9,30 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Website;
 
 public partial class Sales_CustomerOrderForm : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!EmployeeId.HasValue)
+            Response.Redirect("~", true); // send back to the home page
+    }
+
+    private int? EmployeeId
+    {
+        get
+        {
+            int? id = null;
+            if(Request.IsAuthenticated)
+            {
+                var manager = new UserManager();
+                var appUser = manager.Users.SingleOrDefault(x => x.UserName == User.Identity.Name);
+                if (appUser != null)
+                    id = appUser.EmployeeId;
+            }
+            return id;
+        }
     }
 
     #region Customer Selection
@@ -288,14 +308,22 @@ public partial class Sales_CustomerOrderForm : Page
     {
         // TODO: Gather the data and save the order
         // 1) Build the EditCustomerOrder object from the form
+        EditCustomerOrder order = BuildCustomerOrder();
+
         // 2) Send the object to the SalesController for bulk processing
+        var controller = new SalesController();
+        controller.Save(order);
     }
 
     protected void PlaceOrder_Click(object sender, EventArgs e)
     {
         // TODO: Gather the data and place the order
         // 1) Build the EditCustomerOrder object from the form
+        EditCustomerOrder order = BuildCustomerOrder();
+
         // 2) Send the object to the SalesController for bulk processing
+        var controller = new SalesController();
+        controller.PlaceOrder(order);
     }
     #endregion
 
@@ -332,6 +360,30 @@ public partial class Sales_CustomerOrderForm : Page
             existing.Add(newItem);
             SetupOrderForEditing(existing);
         }
+    }
+
+    private EditCustomerOrder BuildCustomerOrder()
+    {
+        EditCustomerOrder order = new EditCustomerOrder();
+        int anId;
+        int.TryParse(EditOrderId.Text, out anId);
+        order.OrderId = anId;
+        DateTime someDate;
+        if (DateTime.TryParse(EditOrderDate.Text, out someDate))
+            order.OrderDate = someDate;
+        if (DateTime.TryParse(EditRequiredDate.Text, out someDate))
+            order.RequiredDate = someDate;
+        if(int.TryParse(EditShipper.SelectedValue, out anId))
+            order.ShipperId = anId;
+        decimal amount;
+        if (decimal.TryParse(EditFreight.Text, NumberStyles.Currency, null, out amount))
+            order.FreightCharge = amount;
+
+        var items = ExtractFromOrderItemsListViewItems();
+        order.OrderItems = items.Select<CustomerOrderItem, EditOrderItem>(x => new EditOrderItem { ProductId = x.ProductId, OrderQuantity = x.Quantity, UnitPrice = x.UnitPrice, DiscountPercent = x.DiscountPercent });
+
+        order.EmployeeId = EmployeeId.Value;
+        return order;
     }
     #endregion
     #endregion
