@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/dgilleland/Documents/GitHub/2017-Sep-In-Class/Northwind 2018",
+  "source_base_path": "E:/gh/(dgilleland)/2017-Sep-In-Class/Northwind 2018",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "S+Z2hZ7yCKHw/7EpER4O3w=="
+          "hash": "4vuHk9YYWQtdtH6N6t0udA=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/customerOrders.html",
-          "hash": "xj2E297kH8n3DiyV4LFfMw=="
+          "hash": "ZpygbArsyX6US7iP4PJtug=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "T3VIxbuSGLMlvU6p7O6fYQ=="
+          "hash": "mQpSFBRcrWYkp/bpmtqMNg=="
         }
       },
       "is_incremental": false,
@@ -113,7 +113,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "Ofz4kRxuCI5jaT0AzlfStA=="
+          "hash": "4vOP9yey/tE8IUPbqdf9DQ=="
         }
       },
       "is_incremental": false,
@@ -136,10 +136,15 @@
     {
       "status": {
         "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "details": "Cannot build incrementally because plugin changed.",
         "incrementalPhase": "build"
       },
       "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -148,18 +153,13 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
-        },
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
         }
       }
     },
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}
