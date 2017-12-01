@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "E:/gh/(dgilleland)/2017-Sep-In-Class/Northwind 2018",
+  "source_base_path": "C:/Users/dgilleland/Documents/GitHub/2017-Sep-In-Class/Northwind 2018",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "4vuHk9YYWQtdtH6N6t0udA=="
+          "hash": "S+Z2hZ7yCKHw/7EpER4O3w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/customerOrders.html",
-          "hash": "ZpygbArsyX6US7iP4PJtug=="
+          "hash": "xj2E297kH8n3DiyV4LFfMw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -78,10 +78,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "mQpSFBRcrWYkp/bpmtqMNg=="
+          "hash": "T3VIxbuSGLMlvU6p7O6fYQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -113,7 +113,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "pS9Hm+CcLuOdmA37Gnoo/A=="
+          "hash": "Ofz4kRxuCI5jaT0AzlfStA=="
         }
       },
       "is_incremental": false,
@@ -135,7 +135,8 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build"
       },
       "processors": {
@@ -145,7 +146,7 @@
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build"
         },
         "ResourceDocumentProcessor": {
@@ -157,8 +158,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}
