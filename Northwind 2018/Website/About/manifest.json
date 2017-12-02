@@ -12,7 +12,7 @@
           "hash": "4vuHk9YYWQtdtH6N6t0udA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/customerOrders.html",
-          "hash": "assepaLCe2sHp+IWdPQVGA=="
+          "hash": "nX7W1fQtgGMAd9ZNNM+d+w=="
         }
       },
       "is_incremental": false,
@@ -103,7 +103,7 @@
           "hash": "mQpSFBRcrWYkp/bpmtqMNg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -138,7 +138,7 @@
           "hash": "4vOP9yey/tE8IUPbqdf9DQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -157,8 +157,7 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because plugin changed.",
+        "can_incremental": true,
         "incrementalPhase": "build"
       },
       "processors": {
@@ -173,7 +172,7 @@
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build"
         }
       }

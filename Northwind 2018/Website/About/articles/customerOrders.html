@@ -82,8 +82,11 @@
 <p><img src="images/Query-First-Visit.png" alt="Sales Page - Data Query for First Visit"></p>
 <p>Clicking on the [Select] button will trigger the next major view of this page: the Selected Customer.</p>
 <h2 id="selected-customer">Selected Customer</h2>
-<p>When a customer is selected, the general company information is displayed, along with the order history of the customer. Order history is divided into two set - Orders that have been shipped, and orders that have not been shipped (i.e.: &quot;Open&quot; orders).</p>
+<p>When a customer is selected, the general company information is displayed, along with the order history of the customer. Order history is divided into two sets - Orders that have been shipped, and orders that have not been shipped (i.e.: &quot;Open&quot; orders).</p>
 <p><img src="images/Selected%20Company.png" alt="Customer Order History"></p>
+<p>When querying the database for this information, it quickly becomes clear that POCOs/DTOs are the most appropriate way to send information to the form.</p>
+<p><img src="images/Query-Selected-Company.png" alt="Customer Order History - Data Query"></p>
+<p>Each line of the order history details can be represented by a simple POCO. The whole customer order, then, can be represented by a DTO that includes a list of the POCOs for order history, meaning that all of the information required on the form can be obtained through a single call to the business logic layer.</p>
 <h2 id="edit-newexisting-order">Edit New/Existing Order</h2>
 <p>When editing a new or existing order, <strong>summary information</strong> on the order needs to be available (relevant dates, shipping info, order total) as well as <strong>detail information</strong> on the order items.</p>
 <p><img src="images/Edit%20Order.png" alt="Edit Order View"></p>

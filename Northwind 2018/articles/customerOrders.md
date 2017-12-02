@@ -24,9 +24,15 @@ Clicking on the [Select] button will trigger the next major view of this page: t
 
 ## Selected Customer
 
-When a customer is selected, the general company information is displayed, along with the order history of the customer. Order history is divided into two set - Orders that have been shipped, and orders that have not been shipped (i.e.: "Open" orders).
+When a customer is selected, the general company information is displayed, along with the order history of the customer. Order history is divided into two sets - Orders that have been shipped, and orders that have not been shipped (i.e.: "Open" orders).
 
 ![Customer Order History](images/Selected Company.png)
+
+When querying the database for this information, it quickly becomes clear that POCOs/DTOs are the most appropriate way to send information to the form.
+
+![Customer Order History - Data Query](images/Query-Selected-Company.png)
+
+Each line of the order history details can be represented by a simple POCO. The whole customer order, then, can be represented by a DTO that includes a list of the POCOs for order history, meaning that all of the information required on the form can be obtained through a single call to the business logic layer.
 
 ## Edit New/Existing Order
 
