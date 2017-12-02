@@ -16,6 +16,11 @@ The first visit to the Sales page simply displays a list of existing customers t
 
 ![Sales Page - First Visit](images/First Visit.png)
 
+For the drop-down, only the Company Name and Customer Id are required on the form, so a simple POCO class geared to the needs of a drop-down is needed.
+
+![Sales Page - Data Query for First Visit](images/Query-First-Visit.png)
+
+Clicking on the [Select] button will trigger the next major view of this page: the Selected Customer.
 
 ## Selected Customer
 

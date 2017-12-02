@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "E:/gh/(dgilleland)/2017-Sep-In-Class/Northwind 2018",
+  "source_base_path": "C:/Users/Dan/Documents/GitHub/(dgilleland)/2017-Sep-In-Class/Northwind 2018",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/customerOrders.html",
-          "hash": "ZpygbArsyX6US7iP4PJtug=="
+          "hash": "assepaLCe2sHp+IWdPQVGA=="
         }
       },
       "is_incremental": false,
@@ -56,6 +56,28 @@
       "output": {
         "resource": {
           "relative_path": "articles/images/First Visit.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/images/Query-First-Visit.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/images/Query-First-Visit.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/images/Query-Selected-Company.png",
+      "output": {
+        "resource": {
+          "relative_path": "articles/images/Query-Selected-Company.png"
         }
       },
       "is_incremental": false,
