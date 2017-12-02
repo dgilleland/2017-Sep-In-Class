@@ -54,6 +54,7 @@
     <Compile Include="BLL\CRUD\RegionController.cs" />
     <Compile Include="BLL\CRUD\ShipperController.cs" />
     <Compile Include="BLL\CRUD\TerritoryController.cs" />
+    <Compile Include="BLL\HumanResourcesController.cs" />
     <Compile Include="BLL\ProductCatalogueController.cs" />
     <Compile Include="BLL\SalesController.cs" />
     <Compile Include="BLL\SandboxController.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Entities\DTOs\CustomerOrderWithDetails.cs" />
     <Compile Include="Entities\DTOs\EditCustomerOrder.cs" />
     <Compile Include="Entities\DTOs\ProductCategory.cs" />
+    <Compile Include="Entities\DTOs\StaffProfile.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
@@ -73,9 +75,12 @@
     <Compile Include="Entities\POCOs\EditOrderItem.cs" />
     <Compile Include="Entities\POCOs\InventoryStatus.cs" />
     <Compile Include="Entities\POCOs\KeyValueOption.cs" />
+    <Compile Include="Entities\POCOs\NewEmployeeProfile.cs" />
     <Compile Include="Entities\POCOs\ProductInfo.cs" />
     <Compile Include="Entities\POCOs\ProductItem.cs" />
     <Compile Include="Entities\POCOs\RegionalManager.cs" />
+    <Compile Include="Entities\POCOs\StaffTerritory.cs" />
+    <Compile Include="Entities\POCOs\TerritoryAssignment.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Region.cs" />
     <Compile Include="Entities\Shipper.cs" />

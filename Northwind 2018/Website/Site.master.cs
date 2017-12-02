@@ -72,6 +72,8 @@ public partial class SiteMaster : MasterPage
             // Hide all the "links" that the user should not see
             Menu_UsersAndRoles.Visible = false;
         }
+        // Another way to "hide/show" links:
+        StaffOnly.Visible = Request.IsAuthenticated && Context.User.IsInRole(ConfigurationManager.AppSettings["employeeRole"]);
     }
 
     protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
