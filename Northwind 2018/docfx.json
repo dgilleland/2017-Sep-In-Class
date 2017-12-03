@@ -4,12 +4,13 @@
       "src": [
         {
           "files": [
-            "src/**.csproj"
+            "NorthwindTraders/NorthwindTraders.csproj",
+            "NorthwindTraders.Security/NorthwindTraders.Security.csproj"
           ],
           "exclude": [
             "**/obj/**",
             "**/bin/**",
-            "Website\\About/**"
+            "Website/About/**"
           ]
         }
       ],
@@ -20,7 +21,7 @@
     "content": [
       {
         "files": [
-          "api/**.yml",
+          "api/toc.yml",
           "api/index.md"
         ]
       },
@@ -33,7 +34,7 @@
         ],
         "exclude": [
           "obj/**",
-          "Website\\About/**"
+          "Website/About/**"
         ]
       }
     ],
@@ -45,7 +46,7 @@
         ],
         "exclude": [
           "obj/**",
-          "Website\\About/**"
+          "Website/About/**"
         ]
       }
     ],
@@ -56,11 +57,11 @@
         ],
         "exclude": [
           "obj/**",
-          "Website\\About/**"
+          "Website/About/**"
         ]
       }
     ],
-    "dest": "Website\\About",
+    "dest": "Website/About",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
