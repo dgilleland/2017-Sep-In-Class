@@ -73,6 +73,11 @@
       }
     ],
     "dest": "Website/About",
+    "globalMetadata" : {
+      "_enableSearch": "true",
+      "_appFooter": "&copy; 2017 - DMIT",
+      "_disableContribution": "true"
+    },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
