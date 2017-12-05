@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Saving Customer Orders </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Saving Customer Orders ">
+    <meta name="generator" content="docfx 2.28.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="saving-customer-orders">Saving Customer Orders</h1>
+
+<p>Saving a customer order is done to preserve changes to an order while keeping it open (i.e., not setting the <code>OrderDate</code>). The customer order to be saved may be a new order or an existing open order. Both of these are handled by a single public BLL method, which internally shunts the main work of saving to two alternate private methods.</p>
+<pre><code class="lang-csharp">public void Save(EditCustomerOrder order)
+{
+    // Always ensure you have been given data to work with
+    if (order == null)
+        throw new ArgumentNullException(&quot;order&quot;, &quot;Cannot save order; order information was not supplied.&quot;);
+
+    // Business validation rules
+    if (order.OrderDate.HasValue)
+        throw new Exception($&quot;An order date of {order.OrderDate.Value.ToLongDateString()} has been supplied. The order date should only be supplied when placing orders, not saving them.&quot;);
+
+    // Decide whether to add new or update
+    //  NOTE: Notice that no db activity is occuring yet.
+    if (order.OrderId == 0)
+        AddPendingOrder(order);
+    else
+        UpdatePendingOrder(order);
+}
+</code></pre><p>The <code>Save()</code> method performs initial validation, ensuring that the order exists and that the order date is not set. In either case, the order is open (or &quot;pending&quot;), and the work of saving changes ir routed to two separate methods, each of which ensure that the order is <strong>processed as a <em>single</em> transaction</strong>.</p>
+<pre><code class="lang-csharp">private void AddPendingOrder(EditCustomerOrder order)
+{
+    using (var context = new NorthwindContext())
+    {
+        var orderInProcess = context.Orders.Add(new Order());
+        // Make the orderInProcess match the customer order as given...
+        // A) The general order information
+        orderInProcess.CustomerID = order.CustomerId;
+        orderInProcess.EmployeeID = order.EmployeeId;
+        orderInProcess.OrderDate = order.OrderDate;
+        orderInProcess.ShipVia = order.ShipperId;
+        orderInProcess.Freight = order.FreightCharge;
+        // B) Add order details
+        foreach (var item in order.OrderItems)
+        {
+            // Add as a new item
+            var newItem = new OrderDetail
+            {
+                ProductID = item.ProductId,
+                Quantity = item.OrderQuantity,
+                UnitPrice = item.UnitPrice,
+                Discount = item.DiscountPercent
+            };
+            orderInProcess.OrderDetails.Add(newItem);
+        }
+
+        // C) Save the changes (one save, one transaction)
+        context.SaveChanges();
+    }
+}
+</code></pre><pre><code class="lang-csharp">private void UpdatePendingOrder(EditCustomerOrder order)
+{
+    using (var context = new NorthwindContext())
+    {
+        var orderInProcess = context.Orders.Find(order.OrderId);
+        // Make the orderInProcess match the customer order as given...
+        // A) The general order information
+        orderInProcess.CustomerID = order.CustomerId;
+        orderInProcess.EmployeeID = order.EmployeeId;
+        orderInProcess.OrderDate = order.OrderDate;
+        orderInProcess.ShipVia = order.ShipperId;
+        orderInProcess.Freight = order.FreightCharge;
+
+        // B) Add/Update/Delete order details
+        //    Loop through the items as known in the database (to update/remove)
+        foreach (var detail in orderInProcess.OrderDetails)
+        {
+            var changes = order.OrderItems.SingleOrDefault(x =&gt; x.ProductId == detail.ProductID);
+            if (changes == null)
+                //toRemove.Add(detail);
+                context.Entry(detail).State = EntityState.Deleted; // flag for deletion
+            else
+            {
+                detail.Discount = changes.DiscountPercent;
+                detail.Quantity = changes.OrderQuantity;
+                detail.UnitPrice = changes.UnitPrice;
+                context.Entry(detail).State = EntityState.Modified;
+            }
+        }
+        //    Loop through the new items to add to the database
+        foreach (var item in order.OrderItems)
+        {
+            // Add as a new item
+            var newItem = new OrderDetail
+            {
+                ProductID = item.ProductId,
+                Quantity = item.OrderQuantity,
+                UnitPrice = item.UnitPrice,
+                Discount = item.DiscountPercent
+            };
+            orderInProcess.OrderDetails.Add(newItem);
+        }
+
+        // C) Save the changes (one save, one transaction)
+        context.Entry(orderInProcess).State = EntityState.Modified;
+        context.SaveChanges();
+    }
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dgilleland/2017-Sep-In-Class/blob/DMIT-2018-A02/Northwind 2018/articles/customerOrders-Save.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

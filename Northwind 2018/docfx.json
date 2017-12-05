@@ -4,14 +4,24 @@
       "src": [
         {
           "files": [
-            "NorthwindTraders/NorthwindTraders.csproj",
-            "NorthwindTraders.Security/NorthwindTraders.Security.csproj"
+            "**/*.csproj"
           ],
           "exclude": [
             "**/obj/**",
             "**/bin/**",
             "Website/About/**"
           ]
+        },
+        {
+          "files": [
+            "NorthwindTraders.Security/NorthwindTraders.Security.csproj"
+          ],
+          "exclude": [
+            "**/obj/**",
+            "**/bin/**",
+            "Website/About/**"
+          ],
+          "cwd": "."
         }
       ],
       "dest": "api"
@@ -53,9 +63,10 @@
     "overwrite": [
       {
         "files": [
-          "apidoc/**.md"
+          "api/**.md"
         ],
         "exclude": [
+          "api/index.md",
           "obj/**",
           "Website/About/**"
         ]

@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Placing Customer Orders </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Placing Customer Orders ">
+    <meta name="generator" content="docfx 2.28.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="placing-customer-orders">Placing Customer Orders</h1>
+
+<p>Placing customer orders is much like saving, except that the order date must be set.</p>
+<pre><code class="lang-csharp">public void PlaceOrder(EditCustomerOrder order)
+{
+    // Always ensure you have been given data to work with
+    if (order == null)
+        throw new ArgumentNullException(&quot;order&quot;, &quot;Cannot place order; order information was not supplied.&quot;);
+
+    // Business validation rules
+    if (!order.RequiredDate.HasValue)
+        throw new Exception($&quot;A  required date for the order is required when placing orders.&quot;);
+    if (!order.OrderDate.HasValue)
+        throw new Exception($&quot;An order date is required when placing orders.&quot;);
+    if (!order.ShipperId.HasValue)
+        throw new Exception(&quot;A shipper must be identified before placing an order.&quot;);
+    if (order.OrderItems.Count() == 0)
+        throw new Exception(&quot;An order must have at least one item before it can be placed.&quot;);
+
+    // Begin processing the order
+    using (var context = new NorthwindContext())
+    {
+        // Prep for processing...
+        var customer = context.Customers.Find(order.CustomerId);
+        if (customer == null)
+            throw new Exception(&quot;Customer does not exist&quot;);
+        var orderInProcess = context.Orders.Find(order.OrderId);
+        if (orderInProcess == null)
+            orderInProcess = context.Orders.Add(new Order());
+        else
+            context.Entry(orderInProcess).State = EntityState.Modified;
+        // Make the orderInProcess match the customer order as given...
+        // A) The general order information
+        orderInProcess.CustomerID = order.CustomerId;
+        orderInProcess.EmployeeID = order.EmployeeId;
+        orderInProcess.OrderDate = order.OrderDate;
+        orderInProcess.RequiredDate = order.RequiredDate;
+        orderInProcess.ShipVia = order.ShipperId;
+        orderInProcess.Freight = order.FreightCharge;
+        // B) Default the ship-to info to the customer&#39;s info
+        orderInProcess.ShipName = customer.CompanyName;
+        orderInProcess.ShipAddress = customer.Address;
+        orderInProcess.ShipCity = customer.City;
+        orderInProcess.ShipRegion = customer.Region;
+        orderInProcess.ShipPostalCode = customer.PostalCode;
+
+        // C) Add/Remove/Update order details
+        //var toRemove = new List&lt;OrderDetail&gt;();
+        foreach (var detail in orderInProcess.OrderDetails)
+        {
+            var changes = order.OrderItems.SingleOrDefault(x =&gt; x.ProductId == detail.ProductID);
+            if (changes == null)
+                //toRemove.Add(detail);
+                context.Entry(detail).State = EntityState.Deleted; // flag for deletion
+            else
+            {
+                detail.Discount = changes.DiscountPercent;
+                detail.Quantity = changes.OrderQuantity;
+                detail.UnitPrice = changes.UnitPrice;
+                context.Entry(detail).State = EntityState.Modified;
+            }
+        }
+        foreach (var item in order.OrderItems)
+        {
+            if (!orderInProcess.OrderDetails.Any(x =&gt; x.ProductID == item.ProductId))
+            {
+                // Add as a new item
+                var newItem = new OrderDetail
+                {
+                    ProductID = item.ProductId,
+                    Quantity = item.OrderQuantity,
+                    UnitPrice = item.UnitPrice,
+                    Discount = item.DiscountPercent
+                };
+                orderInProcess.OrderDetails.Add(newItem);
+            }
+        }
+
+        // D) Save the changes (one save, one transaction)
+        context.SaveChanges();
+    }
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dgilleland/2017-Sep-In-Class/blob/DMIT-2018-A02/Northwind 2018/articles/customerOrders-Place.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

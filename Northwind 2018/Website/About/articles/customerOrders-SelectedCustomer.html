@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Selected Customer </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Selected Customer ">
+    <meta name="generator" content="docfx 2.28.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="selected-customer">Selected Customer</h2>
+
+<p>When a customer is selected, the general company information is displayed, along with the order history of the customer. Order history is divided into two sets - Orders that have been shipped, and orders that have not been shipped (i.e.: &quot;Open&quot; orders).</p>
+<blockquote><p><img src="images/Selected%20Company.png" alt="Customer Order History"></p>
+</blockquote>
+<p>When querying the database for this information, it quickly becomes clear that POCOs/DTOs are the most appropriate way to send information to the form.</p>
+<blockquote><p><img src="images/Query-Selected-Company.png" alt="Customer Order History - Data Query"></p>
+</blockquote>
+<p>General customer information can be represented by a simple POCO, and the data is retrieved via code-behind. Part of the reason for this is that the data must be un-packed manually in the code-behind, since it is a <em>single</em> customer whose information is retrieved.</p>
+<pre><code class="lang-csharp">public class CustomerSummary
+{
+    public string CompanyName { get; set; }
+    public string ContactName { get; set; }
+    public string Phone { get; set; }
+    public string Fax { get; set; }
+}
+</code></pre><p>Likewise, each line of the order history details can also be represented by a simple POCO. In this case, however, the data can be retrieved either manually in code-behind or through an <code>&lt;asp:ObjectDataSource&gt;</code> control.</p>
+<pre><code class="lang-csharp">public class CustomerOrder
+{
+    public int OrderId { get; set; }
+    public string Employee { get; set; }
+    public DateTime? OrderDate { get; set; }
+    public DateTime? RequiredDate { get; set; }
+    public DateTime? ShippedDate { get; set; }
+    public string Shipper { get; set; }
+    public decimal? Freight { get; set; }
+    public decimal OrderTotal { get; set; }
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/dgilleland/2017-Sep-In-Class/blob/DMIT-2018-A02/Northwind 2018/articles/customerOrders-SelectedCustomer.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
