@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="CustomerOrderForm.aspx.cs" Inherits="Sales_CustomerOrderForm" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <h1 class="page-header">Customer Order Form</h1>
@@ -85,6 +88,7 @@
                 </asp:LinkButton>
                 <asp:LinkButton ID="PlaceOrder" runat="server" CssClass="btn btn-success btn-sm" OnClick="PlaceOrder_Click">Place Order</asp:LinkButton>
             </h3>
+            <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
             <table class="table table-condensed">
                 <tr>
                     <th>Order Date</th>

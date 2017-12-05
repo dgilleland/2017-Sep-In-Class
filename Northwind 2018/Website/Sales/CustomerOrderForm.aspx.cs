@@ -306,24 +306,27 @@ public partial class Sales_CustomerOrderForm : Page
 
     protected void SaveOrder_Click(object sender, EventArgs e)
     {
-        // TODO: Gather the data and save the order
-        // 1) Build the EditCustomerOrder object from the form
-        EditCustomerOrder order = BuildCustomerOrder();
+        MessageUserControl.TryRun(() => {
+            // 1) Build the EditCustomerOrder object from the form
+            EditCustomerOrder order = BuildCustomerOrder();
 
-        // 2) Send the object to the SalesController for bulk processing
-        var controller = new SalesController();
-        controller.Save(order);
+            // 2) Send the object to the SalesController for bulk processing
+            var controller = new SalesController();
+            controller.Save(order);
+        }, "Save Order", "Customer order saved");
     }
 
     protected void PlaceOrder_Click(object sender, EventArgs e)
     {
-        // TODO: Gather the data and place the order
-        // 1) Build the EditCustomerOrder object from the form
-        EditCustomerOrder order = BuildCustomerOrder();
-
-        // 2) Send the object to the SalesController for bulk processing
-        var controller = new SalesController();
-        controller.PlaceOrder(order);
+        MessageUserControl.TryRun(() => {
+            // 1) Build the EditCustomerOrder object from the form
+            EditCustomerOrder order = BuildCustomerOrder();
+            
+            // 2) Send the object to the SalesController for bulk processing
+            var controller = new SalesController();
+            controller.PlaceOrder(order);
+            CustomerOrderEditingPanel.Enabled = false;
+        }, "Place Order", "The customer order has been placed and is in queue for shipping.");
     }
     #endregion
 
@@ -368,6 +371,7 @@ public partial class Sales_CustomerOrderForm : Page
         int anId;
         int.TryParse(EditOrderId.Text, out anId);
         order.OrderId = anId;
+        order.CustomerId = CustomerDropDown.SelectedValue;
         DateTime someDate;
         if (DateTime.TryParse(EditOrderDate.Text, out someDate))
             order.OrderDate = someDate;
