@@ -48,10 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BookingController.cs" />
+    <Compile Include="BLL\MovieController.cs" />
     <Compile Include="DAL\TheaterContext.cs" />
     <Compile Include="Entities\CommandModels\Reservation.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\QueryModels\Seat.cs" />
+    <Compile Include="Entities\SharedModels\MovieShowTime.cs" />
     <Compile Include="Migrations\201712060801321_InitialCommit.cs" />
     <Compile Include="Migrations\201712060801321_InitialCommit.Designer.cs">
       <DependentUpon>201712060801321_InitialCommit.cs</DependentUpon>
