@@ -11,8 +11,8 @@
 void Main()
 {
 	var needing = from data in Parts
-//	              where data.QuantityOnHand + data.QuantityOnOrder <= data.ReorderLevel
-				  where data.QuantityOnHand + data.QuantityOnOrder >= data.ReorderLevel
+	              where data.QuantityOnHand + data.QuantityOnOrder <= data.ReorderLevel
+//				  where data.QuantityOnHand + data.QuantityOnOrder >= data.ReorderLevel
 				  select data;
 	needing.Dump("Parts needing ordering");
 	var open = PurchaseOrders.Where(x => !x.OrderDate.HasValue);

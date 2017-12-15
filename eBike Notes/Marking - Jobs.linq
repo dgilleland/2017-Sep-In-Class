@@ -10,6 +10,10 @@
 // Display Jobs Data Changes
 void Main()
 {
+	var jobs = Jobs.Where(x=>!x.JobDateOut.HasValue);
+	jobs.Dump("All jobs not out");
+//	var outJobs = Jobs.Where(x=>x.JobDateOut.HasValue);
+//	outJobs.Dump("All jobs out");
 	Parts.Where(x=>x.Description.Contains("O-ring")).Dump();
 }
 
